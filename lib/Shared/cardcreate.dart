@@ -1,9 +1,11 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_cubit.dart';
 import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_state.dart';
 import 'package:jordan_insider/Models/attraction.dart';
+import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Attraction%20Screen/attractionscreen.dart';
 
@@ -34,17 +36,80 @@ class CreateCard extends StatelessWidget {
                             .setAttraction(items.elementAt(index));
                         Navigator.pushNamed(context, AttractionScreen.route);
                       },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: items.elementAt(index).getImages().isNotEmpty
-                            ? Image.memory(
-                                items.elementAt(index).getImages().first!,
-                                fit: BoxFit.cover,
-                              )
-                            : Center(
-                                child: Text(items.elementAt(index).getName())),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        fit: StackFit.expand,
+                        children: [
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: items.elementAt(index).getImages().isNotEmpty
+                                ? Image.memory(
+                                    items.elementAt(index).getImages().first!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Center(child: Container()),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(7.5.dg),
+                            alignment: Alignment.topCenter,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  items.elementAt(index).getName(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.sp,
+                                      shadows: const [
+                                        Shadow(
+                                            blurRadius: 10,
+                                            color: Colors.black,
+                                            offset: Offset(3, 2)),
+                                      ]),
+                                ),
+                                ConditionalBuilder(
+                                  condition: items.elementAt(index) is Site,
+                                  builder: (context) {
+                                    return Row(
+                                      children: [
+                                        Text(
+                                          (items.elementAt(index) as Site)
+                                              .getAvgRate()
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15.sp,
+                                              shadows: const [
+                                                Shadow(
+                                                    blurRadius: 10,
+                                                    color: Colors.black,
+                                                    offset: Offset(3, 2)),
+                                              ]),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          shadows: const [
+                                            Shadow(
+                                                blurRadius: 20,
+                                                color: Colors.black,
+                                                offset: Offset(2, 2)),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  fallback: null,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );

@@ -23,16 +23,16 @@ class Review {
 
   Review.fromJSON(Map<String, dynamic> json) {
     try {
-      _reviewid = json["reviewid"];
-      _touristsiteId = json["touristsiteid"];
-      _reviewerId = json["userid"];
+      _reviewid = json["reviewid"] ?? 0;
+      _touristsiteId = json["touristsiteid"] ?? 0;
+      _reviewerId = json["userid"] ?? 0;
       try {
         _reviewRate = double.parse(json["rating"].toString());
       } catch (e) {
         // ignore: avoid_print
         print("Error Rate is Not Double : $e");
       }
-      _reviewText = json["reviewtxt"];
+      _reviewText = json["reviewtxt"] ?? "";
       _reviewTime = json["reviewdate"] ?? "1-1-2024";
     } catch (e) {
       logger.e("Error in Review.fromJSON : $e");

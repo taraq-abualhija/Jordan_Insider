@@ -22,7 +22,7 @@ class AttractionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController pageController = PageController(initialPage: 0);
-
+    bool firstTime = true;
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: ShowAttractionCubit.getInstans()),
@@ -36,11 +36,14 @@ class AttractionScreen extends StatelessWidget {
           if (cubit.getAttraction() == null) {
             Navigator.pop(context);
           }
-
-          cubit.getUserReview(userCubit.userData!.getId());
-          cubit.getAttractionReviews();
+          if (firstTime) {
+            print("object");
+            cubit.getReviews(userCubit.userData!.getId());
+            firstTime = false;
+          }
 
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: ConditionalBuilder(
               condition: (state is! ShowAttractionLoadingStates),
               builder: (context) {
@@ -142,14 +145,35 @@ class AttractionScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Open",
-                                  style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: "Open" == "Open"
-                                          ? Colors.green
-                                          : Colors.red),
+                                ConditionalBuilder(
+                                  condition: cubit.getAttraction() is Site,
+                                  builder: (context) {
+                                    return ConditionalBuilder(
+                                      condition: (cubit.getAttraction() as Site)
+                                          .isOpen(),
+                                      builder: (context) {
+                                        return Text(
+                                          "Open",
+                                          style: TextStyle(
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.green),
+                                        );
+                                      },
+                                      fallback: (context) {
+                                        return Text(
+                                          "Close",
+                                          style: TextStyle(
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  fallback: (context) {
+                                    return Container();
+                                  },
                                 ),
                                 Icon(Icons.favorite_border, size: 25.sp),
                                 // Icon(Icons.favorite, color: Colors.red, size: 25.sp),

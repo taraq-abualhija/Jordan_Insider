@@ -12,8 +12,6 @@ import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Search_Screen/searchscreen.dart';
 import '../../../Shared/cardcreate.dart';
 
-bool getSites = true;
-
 class TouristHomePage extends StatelessWidget {
   TouristHomePage({super.key});
   static String route = "TouristHomePage";
@@ -26,6 +24,7 @@ class TouristHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool getSites = true;
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: ShowSiteCubit.getInstans()),
@@ -41,125 +40,117 @@ class TouristHomePage extends StatelessWidget {
             cubit.getAllSites();
             eventCubit.getAllEvents();
             getSites = false;
-            // cubit.justEmitInit();
+            cubit.justEmitInit();
           }
           if (state is GetSiteSuccessStates) {
+            bestPlaces.clear();
+            nextEvents.clear();
             getBestPlaces(cubit.acceptedSites);
             getBestEvents(eventCubit.events);
-            // cubit.justEmitInit();
+            cubit.justEmitInit();
           }
-          return FutureBuilder(
-              future: Future.wait([
-                cubit.getAllSites(),
-                eventCubit.getAllEvents(),
-              ]),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return Scaffold(
-                    key: _scaffoldKey,
-                    drawer: DefaultDrawer(),
-                    appBar: myAppBar(
-                        leading: IconButton(
-                            onPressed: () {
-                              cubit.justEmitInit();
-                              _scaffoldKey.currentState!.openDrawer();
-                            },
-                            icon: Icon(Icons.menu)),
-                        actions: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, SearchScreen.route);
-                            },
-                            icon: Icon(Icons.search),
-                          ),
-                        ]),
-                    body: Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(),
-                            child: Container(
-                              margin: EdgeInsets.all(10.dg),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                        size: 30,
-                                      ),
-                                      Text(
-                                        "Best places",
-                                        style: TextStyle(fontSize: 18.sp),
-                                      ),
-                                    ],
-                                  ),
-                                  CreateCard(items: bestPlaces)
-                                ],
+
+          return Scaffold(
+            key: _scaffoldKey,
+            drawer: DefaultDrawer(),
+            appBar: myAppBar(
+                leading: IconButton(
+                    onPressed: () {
+                      cubit.justEmitInit();
+                      _scaffoldKey.currentState!.openDrawer();
+                    },
+                    icon: Icon(Icons.menu)),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, SearchScreen.route);
+                    },
+                    icon: Icon(Icons.search),
+                  ),
+                ]),
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: Container(
+                      margin: EdgeInsets.all(10.dg),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 30,
                               ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(),
-                            child: Container(
-                              margin: EdgeInsets.all(10.dg),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                        size: 30,
-                                      ),
-                                      Text(
-                                        "Week Events",
-                                        style: TextStyle(fontSize: 18.sp),
-                                      ),
-                                    ],
-                                  ),
-                                  CreateCard(items: nextEvents)
-                                ],
+                              Text(
+                                "Best places",
+                                style: TextStyle(fontSize: 18.sp),
                               ),
-                            ),
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(),
-                            child: Container(
-                              margin: EdgeInsets.all(10.dg),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                        size: 30,
-                                      ),
-                                      Text(
-                                        "Best Restaurants",
-                                        style: TextStyle(fontSize: 18.sp),
-                                      ),
-                                    ],
-                                  ),
-                                  CreateCard(items: bestPlaces)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          CreateCard(items: bestPlaces)
+                        ],
+                      ),
                     ),
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              });
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: Container(
+                      margin: EdgeInsets.all(10.dg),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 30,
+                              ),
+                              Text(
+                                "Week Events",
+                                style: TextStyle(fontSize: 18.sp),
+                              ),
+                            ],
+                          ),
+                          CreateCard(items: nextEvents)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: Container(
+                      margin: EdgeInsets.all(10.dg),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 30,
+                              ),
+                              Text(
+                                "Best Restaurants",
+                                style: TextStyle(fontSize: 18.sp),
+                              ),
+                            ],
+                          ),
+                          CreateCard(items: bestPlaces)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
         },
       ),
     );

@@ -2,6 +2,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_state.dart';
 import 'package:jordan_insider/Models/coordinator_user.dart';
+import 'package:jordan_insider/Models/review.dart';
 import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Shared/network/end_points.dart';
@@ -91,6 +92,7 @@ class ShowSiteCubit extends Cubit<ShowSiteStates> {
         try {
           var s = Site.fromJSON(element);
           allSites.add(s);
+          await getSiteReviewById(s.getID());
           _splitSite(s);
         } catch (e) {
           logger.e(e);
@@ -106,6 +108,24 @@ class ShowSiteCubit extends Cubit<ShowSiteStates> {
       emit(ShowSiteErrorStates(error.toString()));
       logger.e(error);
     });
+  }
+
+  Future<void> getSiteReviewById(int id) async {
+    await DioHelper.getData(
+      url: GetReviewsByTouristSiteId + id.toString(),
+      query: {},
+    ).then((value) {
+      //List<Map>
+      for (var element in value.data) {
+        //Map
+        allSites
+            .where((element) {
+              return element.getID() == id;
+            })
+            .first
+            .addReview(Review.fromJSON(element));
+      }
+    }).catchError((error) {});
   }
 
   void setMySites(int id) {

@@ -26,33 +26,39 @@ class ShowAttractionCubit extends Cubit<ShowAttractionStates> {
 
   Attraction? getAttraction() => _attraction;
 
-  void getAttractionReviews() {
+  Future<void> getAttractionReviews() async {
     attractionReviews.clear();
-    emit(ShowAttractionLoadingStates());
+
     DioHelper.getData(
         url: GetReviewsByTouristSiteId + _attraction!.getID().toString(),
         query: {}).then((value) {
       for (var element in value.data) {
         attractionReviews.add(ReviewUserDTO.fromJSON(element));
       }
-      emit(GetReviewsByTouristSiteIdSuccessStates());
     }).catchError((error) {
       emit(ShowAttractionErrorStates(error));
     });
   }
 
-  void getUserReview(int userId) {
-    emit(ShowAttractionLoadingStates());
-
+  Future<void> getUserReview(int userId) async {
     DioHelper.getData(
       url: "$GetReviewByUserIdTouristSiteId$userId/${_attraction!.getID()}",
       query: {},
     ).then((value) {
       thisUserReview = Review.fromJSON(value.data);
-      emit(GetReviewByIdSuccessStates());
     }).catchError((error) {
-      emit(GetReviewByIdErrorStates(error));
+      emit(ShowAttractionErrorStates(error));
     });
+  }
+
+  Future<void> getReviews(int userId) async {
+    attractionReviews.clear();
+    thisUserReview = null;
+
+    emit(ShowAttractionLoadingStates());
+    await getAttractionReviews();
+    await getUserReview(userId);
+    emit(GetReviewByIdSuccessStates());
   }
 
   Future<void> justEmit() async {

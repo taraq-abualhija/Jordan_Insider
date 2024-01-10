@@ -2,8 +2,8 @@ import 'package:jordan_insider/Models/attraction.dart';
 import 'package:jordan_insider/Models/review.dart';
 
 class Site extends Attraction {
-  String _timeFrom = "";
-  String _timeTo = "";
+  String _timeFrom = "00:00";
+  String _timeTo = "00:00";
   final List<Review> _reviews = [];
   String _status = "pending";
 
@@ -43,7 +43,7 @@ class Site extends Attraction {
   }
 
   List<Review?> getReviews() => _reviews;
-  void setReview(Review review) {
+  void addReview(Review review) {
     _reviews.add(review);
   }
 
@@ -56,5 +56,43 @@ class Site extends Attraction {
       sum += review.getReviewRate();
     }
     return sum / _reviews.length;
+  }
+
+  bool isOpen() {
+    if (_timeFrom == "00:00" && _timeTo == "00:00") {
+      return true;
+    }
+
+    DateTime dateFrom = stringToDate(_timeFrom);
+    DateTime dateTo = stringToDate(_timeTo);
+
+    DateTime now = DateTime.now();
+
+    if (!now.difference(dateFrom).isNegative &&
+        now.difference(dateTo).isNegative) {
+      return true;
+    }
+
+    return false;
+  }
+
+  DateTime stringToDate(String time) {
+    int h = 0;
+    int m = 0;
+    String pmAm = "";
+    h = int.parse(time.substring(0, time.indexOf(':')));
+    m = int.parse(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
+    pmAm = time.substring(time.indexOf(' ') + 1);
+    if (pmAm == "PM") {
+      h += 12;
+    }
+    DateTime date = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      h,
+      m,
+    );
+    return date;
   }
 }
