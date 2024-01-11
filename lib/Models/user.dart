@@ -5,6 +5,7 @@ class User {
   int _id = 0;
   String _email = "";
   String _fullName = "";
+  String _pass = "";
   int _rollId = 3;
   String token = "";
   String? _imageName;
@@ -36,12 +37,17 @@ class User {
     _imageU8L = image;
   }
 
+  void setPass(String pass) {
+    _pass = pass;
+  }
+
   String? getImageName() => _imageName;
   Uint8List? getImageU8L() => _imageU8L;
   int getId() => _id;
   String getEmail() => _email;
   String getFullName() => _fullName;
   int getRoll() => _rollId;
+  String getPass() => _pass;
 
   @override
   String toString() {

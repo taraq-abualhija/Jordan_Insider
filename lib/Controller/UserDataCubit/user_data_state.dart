@@ -20,6 +20,12 @@ class UserGetDataErrorState extends UserDataStates {
 
 class UserDataUpdateLoadingState extends UserDataStates {}
 
+class UserChangePassLoadingState extends UserDataStates {}
+
+class UserChangePassSuccessState extends UserDataStates {}
+
+class UserChangePassErrorState extends UserDataStates {}
+
 class UserDataAddReviewLoadingState extends UserDataStates {}
 
 class UserDataAddReviewSuccessState extends UserDataStates {}

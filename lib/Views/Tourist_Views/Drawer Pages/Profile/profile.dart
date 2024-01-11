@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
+import 'package:jordan_insider/Models/admin_user.dart';
+import 'package:jordan_insider/Models/coordinator_user.dart';
 import 'package:jordan_insider/Models/tourist_user.dart';
 
 import '../../../../Shared/Constants.dart';
@@ -85,9 +87,12 @@ class Profile extends StatelessWidget {
                       formatText("Email", cubit.userData!.getEmail()),
                       SizedBox(height: ScreenHeight(context) / 30),
                       ConditionalBuilder(
-                        condition: cubit.userData is Tourist,
-                        builder: (context) => formatText("Phone #",
-                            (cubit.userData as Tourist).getPhoneNum() ?? ""),
+                        condition: cubit.userData is! Admin,
+                        builder: (context) => cubit.userData is Tourist
+                            ? formatText("Phone #",
+                                (cubit.userData as Tourist).getPhoneNum())
+                            : formatText("Phone #",
+                                (cubit.userData as Coordinator).getPhoneNum()),
                         fallback: null,
                       ),
                     ],

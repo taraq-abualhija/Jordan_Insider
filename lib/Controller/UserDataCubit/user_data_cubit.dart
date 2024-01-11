@@ -71,12 +71,21 @@ class UserDataCubit extends Cubit<UserDataStates> {
           "name": name,
           "email": userData!.getEmail(),
           "imagename": imageName,
-          "phonenum": phoneNum
+          "phonenum": phoneNum,
+          "password": userData!.getPass()
         }).then((value) {
           userData!.setFullName(name);
           userData!.setImageName(imageName);
           userData!.setImageU8L(displayimage);
-          phoneNum != null ? (userData as Tourist).setPhoneNum(phoneNum) : null;
+          try {
+            if (phoneNum != null) {
+              userData is Tourist
+                  ? (userData as Tourist).setPhoneNum(phoneNum)
+                  : (userData as Coordinator).setPhoneNum(phoneNum);
+            }
+          } catch (e) {
+            logger.e(e);
+          }
           emit(UserDataUpdateSuccessState());
           return true;
         }).catchError((error) {
@@ -92,11 +101,16 @@ class UserDataCubit extends Cubit<UserDataStates> {
         "name": name,
         "email": userData!.getEmail(),
         "imagename": userData!.getImageName(),
-        "phonenum": phoneNum
+        "phonenum": phoneNum,
+        "password": userData!.getPass()
       }).then((value) {
         userData!.setFullName(name);
         try {
-          phoneNum != null ? (userData as Tourist).setPhoneNum(phoneNum) : null;
+          if (phoneNum != null) {
+            userData is Tourist
+                ? (userData as Tourist).setPhoneNum(phoneNum)
+                : (userData as Coordinator).setPhoneNum(phoneNum);
+          }
         } catch (e) {
           logger.e(e);
         }
@@ -147,6 +161,32 @@ class UserDataCubit extends Cubit<UserDataStates> {
     }).catchError((error) {
       emit(UserDataAddReviewErrorState(error.toString()));
       logger.e(error);
+    });
+  }
+
+  void changePass(String newPass) {
+    emit(UserChangePassLoadingState());
+    String phoneNum = "";
+    if (userData is Tourist) {
+      phoneNum = (userData as Tourist).getPhoneNum();
+    } else if (userData is Coordinator) {
+      phoneNum = (userData as Coordinator).getPhoneNum();
+    }
+
+    DioHelper.updateData(
+      url: UpdateUser,
+      data: {
+        "userid": userData!.getId(),
+        "name": userData!.getFullName(),
+        "email": userData!.getEmail(),
+        "imagename": userData!.getImageName(),
+        "phonenum": phoneNum,
+        "password": newPass
+      },
+    ).then((value) {
+      emit(UserChangePassSuccessState());
+    }).catchError((error) {
+      emit(UserChangePassErrorState());
     });
   }
 }

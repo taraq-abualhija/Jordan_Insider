@@ -3,6 +3,7 @@ import 'package:jordan_insider/Views/Admin/Home/home_page.dart';
 import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptNewSite/accept_new_sites.dart';
 import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptSiteScreen/accept_site_screen.dart';
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/camera_screen.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/change_pass.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/editprofile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Attraction%20Screen/attractionscreen.dart';
@@ -25,6 +26,7 @@ getRouts() {
     SignUp.route: (context) => SignUp(),
     Profile.route: (context) => Profile(),
     EditProfile.route: (context) => EditProfile(),
+    ChangePassScreen.route: (context) => ChangePassScreen(),
     UserReviews.route: (context) => UserReviews(),
     CameraScreen.route: (context) => CameraScreen(),
     //-.-.-.-.-.-.-.-.-.-.-.-.-.-.//

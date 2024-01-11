@@ -6,7 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
+import 'package:jordan_insider/Models/admin_user.dart';
+import 'package:jordan_insider/Models/coordinator_user.dart';
 import 'package:jordan_insider/Models/tourist_user.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/change_pass.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 import '../../../../Shared/Constants.dart';
 
@@ -28,8 +32,13 @@ class EditProfile extends StatelessWidget {
       nameController =
           TextEditingController(text: cubit.userData!.getFullName());
       try {
-        phoneNoController = TextEditingController(
-            text: (cubit.userData as Tourist).getPhoneNum());
+        if (cubit.userData is Tourist) {
+          phoneNoController = TextEditingController(
+              text: (cubit.userData as Tourist).getPhoneNum());
+        } else {
+          phoneNoController = TextEditingController(
+              text: (cubit.userData as Coordinator).getPhoneNum());
+        }
       } catch (e) {
         e;
       }
@@ -44,7 +53,25 @@ class EditProfile extends StatelessWidget {
     return BlocProvider.value(
       value: UserDataCubit.getInstans(),
       child: BlocConsumer<UserDataCubit, UserDataStates>(
-        listener: (context, state) {},
+        listener: (context, state) async {
+          if (state is UserDataUpdateSuccessState) {
+            MotionToast.success(
+                    toastDuration: Duration(milliseconds: 1400),
+                    position: MotionToastPosition.top,
+                    animationCurve: Curves.fastLinearToSlowEaseIn,
+                    description: Text("Update Data Success"))
+                .show(context);
+            await Future.delayed(Duration(milliseconds: 1500));
+            Navigator.pop(context);
+          } else if (state is UserDataUpdateErrorState) {
+            MotionToast.warning(
+                    toastDuration: Duration(milliseconds: 1500),
+                    position: MotionToastPosition.top,
+                    animationCurve: Curves.fastLinearToSlowEaseIn,
+                    description: Text("Something went Wrong!"))
+                .show(context);
+          }
+        },
         builder: (context, state) {
           UserDataCubit cubit = UserDataCubit.getInstans();
 
@@ -158,7 +185,7 @@ class EditProfile extends StatelessWidget {
                             ),
                             SizedBox(height: ScreenHeight(context) / 50),
                             ConditionalBuilder(
-                              condition: cubit.userData is Tourist,
+                              condition: cubit.userData is! Admin,
                               builder: (context) {
                                 return Row(
                                   children: [
@@ -184,7 +211,10 @@ class EditProfile extends StatelessWidget {
                             SizedBox(height: ScreenHeight(context) / 50),
                             DefaultButton(
                               text: "change password",
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, ChangePassScreen.route);
+                              },
                             ),
                           ],
                         ),
@@ -192,14 +222,17 @@ class EditProfile extends StatelessWidget {
                     ],
                   ),
                   ConditionalBuilder(
-                    condition: state is! UserGetDataLoadingState,
+                    condition: state is! UserDataUpdateLoadingState,
                     builder: (context) {
                       return Container(
                         margin: EdgeInsets.all(20.dg),
                         child: DefaultButton(
                           text: "Save",
                           onPressed: () {
-                            Navigator.pop(context);
+                            cubit.updateUser(
+                              name: nameController.text,
+                              phoneNum: phoneNoController.text,
+                            );
                           },
                         ),
                       );

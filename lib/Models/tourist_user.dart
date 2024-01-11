@@ -8,7 +8,7 @@ import 'package:jordan_insider/Models/ticket.dart';
 
 class Tourist extends User {
   List<Site> _visitedSites = [];
-  String? _phoneNum;
+  String _phoneNum = "";
   Set<Review> _reviews = {};
   List<Ticket> _tickets = [];
 
@@ -17,6 +17,7 @@ class Tourist extends User {
   Tourist.fromJS(Map<String, dynamic> json, {String? newtoken})
       : super(json['userid'], 3) {
     setEmail(json['email'] ?? "");
+    setPass(json['password'] ?? "null");
     setFullName(
         json['name'] ?? getEmail().substring(0, getEmail().indexOf('@')));
     _phoneNum = json['phonenum'] ?? "";
@@ -31,7 +32,7 @@ class Tourist extends User {
     _phoneNum = phoneNum;
   }
 
-  String? getPhoneNum() => _phoneNum;
+  String getPhoneNum() => _phoneNum;
 
   void addSiteToHistory(Site s) {
     _visitedSites.add(s);

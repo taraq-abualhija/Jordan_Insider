@@ -8,6 +8,7 @@ class Admin extends User {
   Admin.fromJS(Map<String, dynamic> json, {String? newtoken})
       : super(json['userid'], 1) {
     setEmail(json['email'] ?? "");
+    setPass(json['password'] ?? "null");
     setFullName(
         json['name'] ?? getEmail().substring(0, getEmail().indexOf('@')));
     super.token = newtoken ?? "";
