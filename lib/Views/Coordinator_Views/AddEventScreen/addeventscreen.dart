@@ -86,7 +86,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             title = "Edit Event";
 
             editEvent = EventManagementCubit.getInstans().getIndexedEvent();
-            setSiteToEdit(editEvent!);
+            setEventToEdit(editEvent!);
           }
 
           return Scaffold(
@@ -292,7 +292,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                 if (formKey.currentState!.validate()) {
                                   if (imagesList.isNotEmpty) {
                                     isEdit
-                                        ? updateSite(cubit)
+                                        ? updateEvent(cubit)
                                         : saveEvent(cubit);
                                     noImageadded = "";
                                   } else {
@@ -492,15 +492,16 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  void setSiteToEdit(SiteEvent event) {
+  void setEventToEdit(SiteEvent event) {
     eventNameController.text = event.getName();
     eventDetailsController.text = event.getDescription();
+    imagesList.addAll(event.getImages());
     eventLocController.text = event.getLocation();
     eventDateController.text = event.getStartDate();
-    imagesList.addAll(event.getImages());
+    eventPriceController.text = event.getPrice().toString();
   }
 
-  void updateSite(EventManagementCubit cubit) {
+  void updateEvent(EventManagementCubit cubit) {
     // //todo Update Site
     editEvent!.setName(eventNameController.text);
     editEvent!.setDescription(eventDetailsController.text);

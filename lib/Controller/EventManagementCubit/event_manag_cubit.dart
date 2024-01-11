@@ -20,7 +20,7 @@ class EventManagementCubit extends Cubit<EventManagementStates> {
 
   SiteEvent getIndexedEvent() {
     int editSiteIndex = ShowEventCubit.getInstans().getEditEventIndex();
-    SiteEvent event = ShowEventCubit.getInstans().events[editSiteIndex];
+    SiteEvent event = ShowEventCubit.getInstans().coorEvents[editSiteIndex];
     return event;
   }
 
@@ -83,7 +83,7 @@ class EventManagementCubit extends Cubit<EventManagementStates> {
           data: {
             "name": event.getName(),
             "eventid": event.getID(),
-            "coordinatorid": event.getCoordinatorid(),
+            "coordinatoorid": event.getCoordinatorid(),
             "datestart": event.getStartDate(),
             "details": event.getDescription(),
             "image1": newImagesName.isNotEmpty ? newImagesName[0] : null,

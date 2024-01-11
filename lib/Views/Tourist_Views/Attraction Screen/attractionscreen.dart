@@ -6,6 +6,7 @@ import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_cu
 import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_state.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
+import 'package:jordan_insider/Models/event.dart';
 import 'package:jordan_insider/Models/review.dart';
 import 'package:jordan_insider/Models/review_user_dto.dart';
 import 'package:jordan_insider/Models/site.dart';
@@ -37,7 +38,6 @@ class AttractionScreen extends StatelessWidget {
             Navigator.pop(context);
           }
           if (firstTime) {
-            print("object");
             cubit.getReviews(userCubit.userData!.getId());
             firstTime = false;
           }
@@ -151,13 +151,14 @@ class AttractionScreen extends StatelessWidget {
                           ),
                           /*State & fav.*/ Container(
                             margin: EdgeInsets.symmetric(horizontal: 15.dg),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ConditionalBuilder(
-                                  condition: cubit.getAttraction() is Site,
-                                  builder: (context) {
-                                    return ConditionalBuilder(
+                            child: ConditionalBuilder(
+                              condition: cubit.getAttraction() is Site,
+                              builder: (context) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ConditionalBuilder(
                                       condition: (cubit.getAttraction() as Site)
                                           .isOpen(),
                                       builder: (context) {
@@ -200,15 +201,12 @@ class AttractionScreen extends StatelessWidget {
                                               color: Colors.red),
                                         );
                                       },
-                                    );
-                                  },
-                                  fallback: (context) {
-                                    return Container();
-                                  },
-                                ),
-                                Icon(Icons.favorite_border, size: 25.sp),
-                                // Icon(Icons.favorite, color: Colors.red, size: 25.sp),
-                              ],
+                                    ),
+                                    Icon(Icons.favorite_border, size: 25.sp),
+                                  ],
+                                );
+                              },
+                              fallback: null,
                             ),
                           ),
                           /*Description*/ Container(
@@ -244,7 +242,20 @@ class AttractionScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        fallback: (context) => Container(),
+                        fallback: null,
+                      ),
+                      /*#Buy Ticket*/ ConditionalBuilder(
+                        condition: cubit.getAttraction() is SiteEvent,
+                        builder: (context) {
+                          return Container(
+                            margin: EdgeInsets.all(15.dg),
+                            child: DefaultButton(
+                              text: "Buy Ticket",
+                              onPressed: () {},
+                            ),
+                          );
+                        },
+                        fallback: null,
                       ),
                     ],
                   ),
