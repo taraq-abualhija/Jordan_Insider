@@ -92,9 +92,6 @@ class ShowEventCubit extends Cubit<ShowEventStates> {
             logger.e(e);
           }
         } else {
-          print("${s.getCoordinatorid()} : ${s.getName()}");
-          print(id);
-          print("------------------------");
           if (s.getCoordinatorid() == id) {
             coorEvents.add(s);
           }

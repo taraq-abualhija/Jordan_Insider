@@ -47,11 +47,11 @@ class AttractionScreen extends StatelessWidget {
             body: ConditionalBuilder(
               condition: (state is! ShowAttractionLoadingStates),
               builder: (context) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
                         children: [
                           /*Images*/ Stack(
                             children: [
@@ -113,7 +113,10 @@ class AttractionScreen extends StatelessWidget {
                             child: Text(
                               cubit.getAttraction()!.getName(),
                               style: TextStyle(
-                                fontSize: 25.sp,
+                                fontSize:
+                                    cubit.getAttraction()!.getName().length < 30
+                                        ? 25.sp
+                                        : 20.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -132,7 +135,13 @@ class AttractionScreen extends StatelessWidget {
                                 child: Text(
                                   cubit.getAttraction()!.getLocation(),
                                   style: TextStyle(
-                                    fontSize: 20.sp,
+                                    fontSize: cubit
+                                                .getAttraction()!
+                                                .getLocation()
+                                                .length <
+                                            25
+                                        ? 20.sp
+                                        : 10.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
@@ -152,12 +161,34 @@ class AttractionScreen extends StatelessWidget {
                                       condition: (cubit.getAttraction() as Site)
                                           .isOpen(),
                                       builder: (context) {
-                                        return Text(
-                                          "Open",
-                                          style: TextStyle(
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green),
+                                        return Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "Open",
+                                              style: TextStyle(
+                                                  fontSize: 15.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.green),
+                                            ),
+                                            ConditionalBuilder(
+                                              condition: (cubit.getAttraction()
+                                                          as Site)
+                                                      .getTimeTo() !=
+                                                  "00:00",
+                                              builder: (context) {
+                                                return Text(
+                                                  " until ${(cubit.getAttraction() as Site).getTimeTo()}",
+                                                  style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                              fallback: null,
+                                            ),
+                                          ],
                                         );
                                       },
                                       fallback: (context) {
@@ -187,36 +218,36 @@ class AttractionScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
-                    /*Reviews*/ ConditionalBuilder(
-                      condition: cubit.getAttraction() is Site,
-                      builder: (context) {
-                        return Padding(
-                          padding: EdgeInsets.all(10.dg),
-                          child: Container(
-                            margin: EdgeInsets.only(left: 15.dg),
-                            child: TextButton(
-                                onPressed: () {
-                                  if (userCubit.userData is Tourist) {
-                                    addReviewDialog(
-                                      cubit: cubit,
-                                      userCubit: userCubit,
-                                      context: context,
-                                    );
-                                  } else {
-                                    showReviews(context);
-                                  }
-                                },
-                                child: Text(
-                                  "Reviews",
-                                  style: TextStyle(fontSize: 20.sp),
-                                )),
-                          ),
-                        );
-                      },
-                      fallback: (context) => Container(),
-                    ),
-                  ],
+                      /*Reviews*/ ConditionalBuilder(
+                        condition: cubit.getAttraction() is Site,
+                        builder: (context) {
+                          return Padding(
+                            padding: EdgeInsets.all(10.dg),
+                            child: Container(
+                              margin: EdgeInsets.only(left: 15.dg),
+                              child: TextButton(
+                                  onPressed: () {
+                                    if (userCubit.userData is Tourist) {
+                                      addReviewDialog(
+                                        cubit: cubit,
+                                        userCubit: userCubit,
+                                        context: context,
+                                      );
+                                    } else {
+                                      showReviews(context);
+                                    }
+                                  },
+                                  child: Text(
+                                    "Reviews",
+                                    style: TextStyle(fontSize: 20.sp),
+                                  )),
+                            ),
+                          );
+                        },
+                        fallback: (context) => Container(),
+                      ),
+                    ],
+                  ),
                 );
               },
               fallback: (context) {

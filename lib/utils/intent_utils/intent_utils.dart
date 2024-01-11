@@ -34,6 +34,7 @@ class IntentUtils {
 
   static Future<void> getLocationByName(String placeName,
       {required BuildContext context}) async {
+    placeName = _removeSpecialChars(placeName);
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/geocode/json?address=$placeName&key=AIzaSyC1NJOxbfFQEPPxfeJ8opJjl2083AwCQds');
     final response = await http.get(url);
@@ -59,5 +60,13 @@ class IntentUtils {
     } else {
       print('Geocoding failed: ${response.statusCode}');
     }
+  }
+
+  static String _removeSpecialChars(String string) {
+    return string
+        .replaceAll(RegExp(r'\s'), ' ')
+        .replaceAll(RegExp(r'[^A-Za-z0-9 ]+'), '')
+        .replaceAllMapped(RegExp(r'(\s)\s+'), (match) => match.group(1)!)
+        .trim();
   }
 }
