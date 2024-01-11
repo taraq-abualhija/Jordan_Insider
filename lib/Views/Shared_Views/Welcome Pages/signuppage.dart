@@ -2,7 +2,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jordan_insider/Controller/SignupCubit/signup_cubit.dart';
 import 'package:jordan_insider/Controller/SignupCubit/signup_state.dart';
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/loginpage.dart';
@@ -185,73 +184,6 @@ class SignUp extends StatelessWidget {
                                     child: Text("Login"),
                                   ),
                                 ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  SizedBox(
-                                    width: 120,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Divider(
-                                              thickness: .8,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    "OR",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: 120,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Divider(
-                                            thickness: .8,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Sign up with",
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: ScreenHeight(context) / 60),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 80),
-                                child: Container(
-                                  height: 55,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(6),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 10,
-                                      )
-                                    ],
-                                  ),
-                                  child: SvgPicture.asset(
-                                      "assets/images/icons8-google.svg"),
-                                ),
                               ),
                             ],
                           ),

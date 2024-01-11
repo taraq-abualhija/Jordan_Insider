@@ -74,18 +74,30 @@ class ShowEventCubit extends Cubit<ShowEventStates> {
     return event;
   }
 
-  Future<void> getAllEvents() async {
+  Future<void> getAllEvents({int? id}) async {
+    coorEvents.clear();
+    events.clear();
+
     DioHelper.getData(
       url: GetAllEvents,
       query: {},
     ).then((value) async {
       events.clear();
       for (var element in value.data) {
-        try {
-          SiteEvent s = SiteEvent.fromJS(element);
-          events.add(s);
-        } catch (e) {
-          logger.e(e);
+        SiteEvent s = SiteEvent.fromJS(element);
+        if (id == null) {
+          try {
+            events.add(s);
+          } catch (e) {
+            logger.e(e);
+          }
+        } else {
+          print("${s.getCoordinatorid()} : ${s.getName()}");
+          print(id);
+          print("------------------------");
+          if (s.getCoordinatorid() == id) {
+            coorEvents.add(s);
+          }
         }
       }
       emit(GetEventSuccessStates());

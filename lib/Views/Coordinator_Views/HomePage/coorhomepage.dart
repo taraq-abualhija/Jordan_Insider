@@ -7,6 +7,8 @@ import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_cubit.dart';
 import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_state.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/showEventCubit/show_event_cubit.dart';
+import 'package:jordan_insider/Models/attraction.dart';
+import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Coordinator_Views/AddSite/addsitepage.dart';
 import 'package:jordan_insider/Views/Coordinator_Views/AddEventScreen/addeventscreen.dart';
@@ -44,7 +46,7 @@ class CoorHomePage extends StatelessWidget {
 
           if (getFirstTime) {
             siteCubit.getAllSites(id: userDataCubit.userData!.getId());
-            eventCubit.getAllEvents();
+            eventCubit.getAllEvents(id: userDataCubit.userData!.getId());
             getFirstTime = false;
           }
 
@@ -181,9 +183,13 @@ class CoorHomePage extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    cubit.coorSite[index].getName(),
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    cubit.coorSite[index].getName().length < 20
+                                        ? cubit.coorSite[index].getName()
+                                        : "${cubit.coorSite[index].getName().substring(0, 20)}...",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   Text(
                                     cubit.coorSite[index].getStatus(),
@@ -216,14 +222,10 @@ class CoorHomePage extends StatelessWidget {
                                             child: Text("Delete"),
                                             onTap: () {
                                               Navigator.pop(context);
-                                              _showConfirmationDialog(
-                                                  context,
-                                                  cubit.coorSite[index].getID(),
-                                                  cubit);
-                                              _showConfirmationDialog(
-                                                  context,
-                                                  cubit.coorSite[index].getID(),
-                                                  cubit);
+                                              _showConfirmationDialog(context,
+                                                  cubit.coorSite[index], cubit);
+                                              _showConfirmationDialog(context,
+                                                  cubit.coorSite[index], cubit);
                                             },
                                           ),
                                           PopupMenuItem(
@@ -327,7 +329,7 @@ class CoorHomePage extends StatelessWidget {
       color: mainColor,
       displacement: 10,
       onRefresh: () async {
-        cubit.getAllEvents();
+        cubit.getAllEvents(id: UserDataCubit.getInstans().userData!.getId());
 
         await Future.delayed(Duration(seconds: 2));
         siteCubit.justEmitInit();
@@ -364,114 +366,128 @@ class CoorHomePage extends StatelessWidget {
                   reverse: false,
                   itemCount: cubit.coorEvents.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.all(5.dg),
-                      margin: EdgeInsets.only(bottom: 10.dg),
-                      decoration: BoxDecoration(border: Border.all(width: 1)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return ConditionalBuilder(
+                      condition: index < cubit.coorEvents.length,
+                      builder: (context) {
+                        return Container(
+                          padding: EdgeInsets.all(5.dg),
+                          margin: EdgeInsets.only(bottom: 10.dg),
+                          decoration:
+                              BoxDecoration(border: Border.all(width: 1)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                cubit.coorEvents[index].getName(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              GestureDetector(
-                                onTapDown: (position) {
-                                  showMenu(
-                                    context: context,
-                                    items: [
-                                      PopupMenuItem(
-                                        child: Text("Edit"),
-                                        onTap: () {
-                                          cubit.editEventIndex = index;
-                                          Navigator.pop(context);
-                                          Navigator.pushNamed(
-                                              context, AddEventScreen.route);
-                                          Navigator.pushNamed(
-                                              context, AddEventScreen.route);
-                                        },
-                                      ),
-                                      PopupMenuItem(
-                                        child: Text("Delete"),
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                          _showConfirmationDialog(
-                                              context,
-                                              cubit.coorEvents[index].getID(),
-                                              cubit);
-                                          _showConfirmationDialog(
-                                              context,
-                                              cubit.coorEvents[index].getID(),
-                                              cubit);
-                                        },
-                                      ),
-                                      PopupMenuItem(
-                                        child: Text("Show"),
-                                        onTap: () {
-                                          ShowAttractionCubit.getInstans()
-                                              .setAttraction(
-                                                  cubit.coorEvents[index]);
-                                          Navigator.pop(context);
-                                          Navigator.pushNamed(
-                                              context, AttractionScreen.route);
-                                          Navigator.pushNamed(
-                                              context, AttractionScreen.route);
-                                        },
-                                      ),
-                                    ],
-                                    position: RelativeRect.fromLTRB(
-                                        (position.globalPosition.dx - 100.w),
-                                        position.globalPosition.dy,
-                                        25.w,
-                                        0),
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25)),
-                                  child: Icon(
-                                    Icons.more_horiz,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    cubit.coorEvents[index].getName(),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
+                                  GestureDetector(
+                                    onTapDown: (position) {
+                                      showMenu(
+                                        context: context,
+                                        items: [
+                                          PopupMenuItem(
+                                            child: Text("Edit"),
+                                            onTap: () {
+                                              cubit.editEventIndex = index;
+                                              Navigator.pop(context);
+                                              Navigator.pushNamed(context,
+                                                  AddEventScreen.route);
+                                              Navigator.pushNamed(context,
+                                                  AddEventScreen.route);
+                                            },
+                                          ),
+                                          PopupMenuItem(
+                                            child: Text("Delete"),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              _showConfirmationDialog(
+                                                  context,
+                                                  cubit.coorEvents[index],
+                                                  cubit);
+                                              _showConfirmationDialog(
+                                                  context,
+                                                  cubit.coorEvents[index],
+                                                  cubit);
+                                            },
+                                          ),
+                                          PopupMenuItem(
+                                            child: Text("Show"),
+                                            onTap: () {
+                                              ShowAttractionCubit.getInstans()
+                                                  .setAttraction(
+                                                      cubit.coorEvents[index]);
+                                              Navigator.pop(context);
+                                              Navigator.pushNamed(context,
+                                                  AttractionScreen.route);
+                                              Navigator.pushNamed(context,
+                                                  AttractionScreen.route);
+                                            },
+                                          ),
+                                        ],
+                                        position: RelativeRect.fromLTRB(
+                                            (position.globalPosition.dx -
+                                                100.w),
+                                            position.globalPosition.dy,
+                                            25.w,
+                                            0),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25)),
+                                      child: Icon(
+                                        Icons.more_horiz,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                cubit.coorEvents[index].getDescription() != ""
+                                    ? cubit.coorEvents[index].getDescription()
+                                    : "No Description",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: cubit.coorEvents[index]
+                                              .getDescription() ==
+                                          ""
+                                      ? Colors.red
+                                      : null,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 250.h,
+                                width: ScreenWidth(context),
+                                child: ConditionalBuilder(
+                                  condition: cubit.coorEvents[index]
+                                      .getImages()
+                                      .isNotEmpty,
+                                  builder: (context) {
+                                    return Image.memory(
+                                      cubit.coorEvents[index]
+                                          .getImages()
+                                          .first!,
+                                      fit: BoxFit.fill,
+                                    );
+                                  },
+                                  fallback: (context) {
+                                    return Container();
+                                  },
                                 ),
                               ),
                             ],
                           ),
-                          Text(
-                            cubit.coorEvents[index].getDescription() != ""
-                                ? cubit.coorEvents[index].getDescription()
-                                : "No Description",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color:
-                                  cubit.coorEvents[index].getDescription() == ""
-                                      ? Colors.red
-                                      : null,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 250.h,
-                            width: ScreenWidth(context),
-                            child: ConditionalBuilder(
-                              condition: cubit.coorEvents[index]
-                                  .getImages()
-                                  .isNotEmpty,
-                              builder: (context) {
-                                return Image.memory(
-                                  cubit.coorEvents[index].getImages().first!,
-                                  fit: BoxFit.fill,
-                                );
-                              },
-                              fallback: (context) {
-                                return Container();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                        );
+                      },
+                      fallback: null,
                     );
                   },
                 ),
@@ -496,18 +512,27 @@ class CoorHomePage extends StatelessWidget {
     );
   }
 
-  void _showConfirmationDialog(BuildContext context, int deleteId, cubit) {
+  void _showConfirmationDialog(
+      BuildContext context, Attraction attraction, cubit) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Confirmation'),
-            content: Text('Are you sure you want to Delete this?'),
+            content: Text(
+                'Are you sure you want to Delete ${attraction.getName()}?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  cubit.deleteSite(deleteId);
+                  cubit.deleteSite(attraction.getID());
                   Navigator.of(context).pop();
+                  if (attraction is Site) {
+                    print("ShowSiteCubit");
+                    ShowSiteCubit.getInstans().coorSite.remove(attraction);
+                  } else {
+                    print("ShowEventCubit");
+                    ShowEventCubit.getInstans().coorEvents.remove(attraction);
+                  }
                 },
                 child: Text(
                   'Delete',

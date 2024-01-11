@@ -35,7 +35,7 @@ class EventManagementCubit extends Cubit<EventManagementStates> {
       image2 = value.data["image2"]?.toString();
 
       logger.t("Upload Image To Server Successfully");
-
+      print(event.getCoordinatorid());
       //$Save the Event
       DioHelper.postData(
         url: CreateEvent,
@@ -47,7 +47,8 @@ class EventManagementCubit extends Cubit<EventManagementStates> {
           'details': event.getDescription(),
           'location': event.getLocation(),
           'image1': image1,
-          'image2': image2
+          'image2': image2,
+          "price": event.getPrice()
         },
       ).then((value) async {
         logger.t("Create New Events Successfully");
@@ -87,7 +88,8 @@ class EventManagementCubit extends Cubit<EventManagementStates> {
             "details": event.getDescription(),
             "image1": newImagesName.isNotEmpty ? newImagesName[0] : null,
             "image2": newImagesName.length >= 2 ? newImagesName[1] : null,
-            "location": event.getLocation()
+            "location": event.getLocation(),
+            "price": event.getPrice()
           },
         ).then((value) async {
           emit(EventManagementSuccessStates());

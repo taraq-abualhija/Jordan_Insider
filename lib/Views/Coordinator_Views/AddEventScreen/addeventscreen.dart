@@ -34,6 +34,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   var eventDetailsController = TextEditingController();
   var eventDateController = TextEditingController();
   var eventLocController = TextEditingController();
+  var eventPriceController = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
   List<Uint8List?> imagesList = [];
   String noImageadded = "";
@@ -68,6 +70,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             eventDetailsController.clear();
             eventDateController.clear();
             eventLocController.clear();
+            eventPriceController.clear();
             imagesList = [];
             noImageadded = "";
             title = "Add New Event";
@@ -194,13 +197,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               ],
                             ),
                             SizedBox(height: ScreenHeight(context) / 75),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Available Time : ",
-                                style: TextStyle(fontSize: 15.sp),
-                              ),
-                            ),
                             /*Date*/ Row(
                               children: [
                                 Expanded(
@@ -229,6 +225,29 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                     height: 35.h,
                                     controller: eventDateController,
                                     inputType: TextInputType.none,
+                                    validate: (val) {
+                                      return null;
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(height: ScreenHeight(context) / 50),
+                            /*Price*/ Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    "Price : ",
+                                    style: TextStyle(fontSize: 15.sp),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 8,
+                                  child: DefaultFormField(
+                                    height: 35.h,
+                                    controller: eventPriceController,
+                                    inputType: TextInputType.number,
                                     validate: (val) {
                                       return null;
                                     },
@@ -454,7 +473,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
     event.setLocation(eventLocController.text);
     event.setStartDate(eventDateController.text);
 
+    try {
+      event.setPrice(double.parse(eventPriceController.text));
+    } catch (e) {
+      e;
+    }
+
     event.setCoordinatorid(UserDataCubit.getInstans().userData!.getId());
+    print(event);
     for (var element in imagesList) {
       if (element != null) {
         event.addImage(element);
@@ -482,6 +508,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
     editEvent!.setLocation(eventLocController.text);
     editEvent!.setStartDate(eventDateController.text);
     editEvent!.setCoordinatorid(UserDataCubit.getInstans().userData!.getId());
+    try {
+      editEvent!.setPrice(double.parse(eventPriceController.text));
+    } catch (e) {
+      e;
+    }
 
     cubit.updateSite(editEvent!, images: imagesList);
   }
