@@ -22,8 +22,8 @@ class CreateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ShowAttractionCubit(),
+    return BlocProvider.value(
+      value: ShowAttractionCubit.getInstans(),
       child: BlocConsumer<ShowAttractionCubit, ShowAttractionStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -305,7 +305,15 @@ class CreateRestCard extends StatelessWidget {
                       );
                     });
               },
-              fallback: (context) => Center(child: CircularProgressIndicator()),
+              fallback: (context) => SizedBox(
+                height: ScreenHeight(context) / 5,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+              ),
             );
           }),
     );

@@ -2,12 +2,14 @@ import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jordan_insider/Controller/RestaurantCubit/restaurant_cubit.dart';
 import 'package:jordan_insider/Controller/SearchCubit/search_cubit.dart';
 import 'package:jordan_insider/Controller/SearchCubit/search_state.dart';
 import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_cubit.dart';
 import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_cubit.dart';
 import 'package:jordan_insider/Controller/showEventCubit/show_event_cubit.dart';
 import 'package:jordan_insider/Models/attraction.dart';
+import 'package:jordan_insider/Models/restaurant.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Attraction%20Screen/attractionscreen.dart';
 
@@ -19,10 +21,11 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ShowAttractionCubit()),
-        BlocProvider(create: (context) => ShowSiteCubit()),
-        BlocProvider(create: (context) => ShowEventCubit()),
-        BlocProvider(create: (context) => SearchCubit()),
+        BlocProvider.value(value: ShowAttractionCubit.getInstans()),
+        BlocProvider.value(value: ShowSiteCubit.getInstans()),
+        BlocProvider.value(value: ShowEventCubit.getInstans()),
+        BlocProvider.value(value: SearchCubit.getInstans()),
+        BlocProvider.value(value: RestaurantCubit.getInstans()),
       ],
       child: BlocConsumer<SearchCubit, SearchStates>(
           listener: (context, state) {},
@@ -69,9 +72,16 @@ class SearchScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        searchCat(
-                          image: "assets/images/restaurant.png",
-                          name: "Restaurant",
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              searchCubit.getRestaurants();
+                            },
+                            child: searchCat(
+                              image: "assets/images/restaurant.png",
+                              name: "Restaurant",
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -147,6 +157,27 @@ class SearchScreen extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
               image: MemoryImage(attraction.getImages().first!),
+              fit: BoxFit.fill),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(),
+        ),
+        child: Text(""),
+      ),
+    );
+  }
+
+  Widget searchRestaurantItem(context, {required Restaurant restaurant}) {
+    return InkWell(
+      onTap: () {
+        //Navigat to Map
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 3.dg, left: 3.dg),
+        height: 125.h,
+        width: 125.w,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/restaurant.jpg"),
               fit: BoxFit.fill),
           borderRadius: BorderRadius.circular(15),
           border: Border.all(),

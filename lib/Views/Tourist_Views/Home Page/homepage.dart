@@ -14,6 +14,8 @@ import 'package:jordan_insider/Views/Tourist_Views/Search_Screen/searchscreen.da
 
 import '../../../Shared/cardcreate.dart';
 
+bool getSites = true;
+
 class TouristHomePage extends StatelessWidget {
   TouristHomePage({super.key});
   static String route = "TouristHomePage";
@@ -26,7 +28,6 @@ class TouristHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool getSites = true;
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: ShowSiteCubit.getInstans()),
@@ -39,9 +40,9 @@ class TouristHomePage extends StatelessWidget {
           var cubit = ShowSiteCubit.getInstans();
           var eventCubit = ShowEventCubit.getInstans();
           if (getSites) {
+            getSites = false;
             cubit.getAllSites();
             eventCubit.getAllEvents();
-            getSites = false;
             cubit.justEmitInit();
           }
           if (state is GetSiteSuccessStates) {
@@ -142,7 +143,7 @@ class TouristHomePage extends StatelessWidget {
                                     size: 30,
                                   ),
                                   Text(
-                                    "NearBy Restaurants",
+                                    "Nearby Restaurants",
                                     style: TextStyle(fontSize: 18.sp),
                                   ),
                                 ],

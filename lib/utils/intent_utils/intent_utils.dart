@@ -76,14 +76,15 @@ class IntentUtils {
         .trim();
   }
 
-  static Future<Set<Restaurant>> getNearbyPlaces(
-      // String type,
-      ) async {
+  static Future<Set<Restaurant>> getNearbyPlaces({
+    String? type,
+    double? radius,
+  }) async {
     Set<Restaurant> restaurants = {};
     double latitude = 32.5343515;
     double longitude = 35.905892;
-    double radius = 1000;
-    String type = "restaurant";
+    radius ??= 1000;
+    type ??= "restaurant";
     try {
       if (await Permission.location.isGranted) {
         Position position = await Geolocator.getCurrentPosition(
