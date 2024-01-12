@@ -7,9 +7,11 @@ import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_state.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/showEventCubit/show_event_cubit.dart';
 import 'package:jordan_insider/Models/event.dart';
+import 'package:jordan_insider/Models/restaurant.dart';
 import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Search_Screen/searchscreen.dart';
+
 import '../../../Shared/cardcreate.dart';
 
 class TouristHomePage extends StatelessWidget {
@@ -18,7 +20,7 @@ class TouristHomePage extends StatelessWidget {
 
   final Set<Site> bestPlaces = {};
   final Set<SiteEvent> nextEvents = {};
-  // final Set<Site> bestRestaurants = {};
+  final Set<Restaurant> nearbyRestaurants = {};
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -62,7 +64,7 @@ class TouristHomePage extends StatelessWidget {
                     icon: Icon(Icons.menu)),
                 actions: [
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pushNamed(context, SearchScreen.route);
                     },
                     icon: Icon(Icons.search),
@@ -130,19 +132,42 @@ class TouristHomePage extends StatelessWidget {
                       child: Column(
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 30,
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    "NearBy Restaurants",
+                                    style: TextStyle(fontSize: 18.sp),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                "Best Restaurants",
-                                style: TextStyle(fontSize: 18.sp),
-                              ),
+                              DropdownButton<String>(
+                                value: cubit.dropdownValue.name,
+                                items: <String>[
+                                  SortRestaurantBy.distance.name,
+                                  SortRestaurantBy.rate.name,
+                                  SortRestaurantBy.name.name,
+                                ].map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  cubit.changeDropdownValue(value);
+                                },
+                              )
                             ],
                           ),
-                          CreateCard(items: bestPlaces)
+                          CreateRestCard(
+                            sortBy: cubit.dropdownValue,
+                          ),
                         ],
                       ),
                     ),

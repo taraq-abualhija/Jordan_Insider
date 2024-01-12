@@ -1,14 +1,20 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/widgets.dart';
+import 'package:jordan_insider/Controller/RestaurantCubit/restaurant_cubit.dart';
+import 'package:jordan_insider/Models/restaurant.dart';
+import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 class IntentUtils {
   IntentUtils._();
+
+  static const String _apiKey = "AIzaSyC1NJOxbfFQEPPxfeJ8opJjl2083AwCQds";
 
   static Future<void> launchGoogleMaps({
     required double lat,
@@ -23,7 +29,7 @@ class IntentUtils {
     try {
       await launchUrl(uri);
     } catch (e) {
-      print(e);
+      logger.e(e);
     }
     // if (await canLaunchUrl(uri)) {
     //   await launchUrl(uri);
@@ -36,7 +42,7 @@ class IntentUtils {
       {required BuildContext context}) async {
     placeName = _removeSpecialChars(placeName);
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?address=$placeName&key=AIzaSyC1NJOxbfFQEPPxfeJ8opJjl2083AwCQds');
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$placeName&key=$_apiKey');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -48,7 +54,7 @@ class IntentUtils {
 
         launchGoogleMaps(lat: lat, long: lng);
       } catch (e) {
-        print(e);
+        logger.e(e);
         MotionToast.warning(
                 toastDuration: Duration(seconds: 3),
                 position: MotionToastPosition.top,
@@ -58,7 +64,7 @@ class IntentUtils {
             .show(context);
       }
     } else {
-      print('Geocoding failed: ${response.statusCode}');
+      logger.e('Geocoding failed: ${response.statusCode}');
     }
   }
 
@@ -68,5 +74,66 @@ class IntentUtils {
         .replaceAll(RegExp(r'[^A-Za-z0-9 ]+'), '')
         .replaceAllMapped(RegExp(r'(\s)\s+'), (match) => match.group(1)!)
         .trim();
+  }
+
+  static Future<Set<Restaurant>> getNearbyPlaces(
+      // String type,
+      ) async {
+    Set<Restaurant> restaurants = {};
+    double latitude = 32.5343515;
+    double longitude = 35.905892;
+    double radius = 1000;
+    String type = "restaurant";
+    try {
+      if (await Permission.location.isGranted) {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        latitude = position.latitude;
+        longitude = position.longitude;
+        try {
+          // Construct the Places API URL
+          final url = Uri.parse(
+              'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+              'key=AIzaSyC1NJOxbfFQEPPxfeJ8opJjl2083AwCQds&location=$latitude,$longitude&radius=$radius&type=$type');
+
+//     Make a GET request to the Places API
+          final response = await http.get(url);
+
+          // Parse the JSON response
+          final results = jsonDecode(response.body)['results'] as List;
+          for (Map ele in results) {
+            restaurants.add(Restaurant.fromJson(ele));
+          }
+        } catch (error) {
+          logger.e('Error fetching nearby places: $error');
+        }
+      } else {
+        print("get Permission");
+        _getLocationPermission();
+      }
+    } catch (e) {
+      logger.e(e);
+    }
+
+    return restaurants;
+  }
+
+  static Future<void> _getLocationPermission() async {
+    var status = await Permission.location.status;
+
+    if (status.isGranted) {
+      print("I can use Location");
+      RestaurantCubit.getInstans().getNearByRestaurants();
+      return;
+    }
+
+    var result = await Permission.location.request();
+
+    if (result.isGranted) {
+      print("I can use Location");
+      RestaurantCubit.getInstans().getNearByRestaurants();
+    } else {
+      print("I can't use Location");
+    }
   }
 }

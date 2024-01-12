@@ -35,13 +35,13 @@ class EventManagementCubit extends Cubit<EventManagementStates> {
       image2 = value.data["image2"]?.toString();
 
       logger.t("Upload Image To Server Successfully");
-      print(event.getCoordinatorid());
+
       //$Save the Event
       DioHelper.postData(
         url: CreateEvent,
         data: {
           'name': event.getName(),
-          "coordinatorid": event.getCoordinatorid(),
+          "coordinatoorids": event.getCoordinatorid(),
           "eventid": 0,
           'datestart': event.getStartDate(),
           'details': event.getDescription(),

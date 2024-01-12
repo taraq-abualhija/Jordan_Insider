@@ -33,11 +33,6 @@ class AcceptSiteCubit extends Cubit<AcceptSiteStates> {
           ShowSiteCubit.getInstans().pendingSites.removeWhere((element) {
             return element.getID() == _showSite!.getID();
           });
-          ShowSiteCubit.getInstans().allSites.removeWhere((element) {
-            return element.getID() == _showSite!.getID();
-          });
-
-          ShowSiteCubit.getInstans().allSites.add(_showSite!);
 
           ShowSiteCubit.getInstans().acceptedSites.add(_showSite!);
         } catch (e) {

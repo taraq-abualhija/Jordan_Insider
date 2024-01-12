@@ -16,10 +16,8 @@ class AcceptNewSite extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider(create: (context) => ShowSiteCubit()),
         BlocProvider.value(value: ShowSiteCubit.getInstans()),
         BlocProvider.value(value: AcceptSiteCubit.getInstans()),
-        // BlocProvider(create: (context) => AcceptSiteCubit()),
       ],
       child: BlocConsumer<ShowSiteCubit, ShowSiteStates>(
           listener: (context, state) {},
@@ -101,7 +99,9 @@ class AcceptNewSite extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                pendingSite.getName(),
+                pendingSite.getName().length < 20
+                    ? pendingSite.getName()
+                    : pendingSite.getName().substring(0, 20),
                 style: TextStyle(
                   fontSize: 15.sp,
                 ),

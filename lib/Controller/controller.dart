@@ -3,6 +3,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Shared/network/local/cache_helper.dart';
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/welcomepage.dart';
 
@@ -21,6 +22,7 @@ void userLogOut(BuildContext context) {
 
   CacheHelper.deleteData("token");
   CacheHelper.deleteData("rollId");
+  UserDataCubit.getInstans().userData = null;
   Navigator.pushNamedAndRemoveUntil(
       context, WelcomePage.route, (route) => false);
 }

@@ -5,6 +5,7 @@ import 'package:jordan_insider/Models/coordinator_user.dart';
 import 'package:jordan_insider/Models/review.dart';
 import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
+import 'package:jordan_insider/Shared/cardcreate.dart';
 import 'package:jordan_insider/Shared/network/end_points.dart';
 import 'package:jordan_insider/Shared/network/remote/dio_helper.dart';
 
@@ -21,6 +22,21 @@ class ShowSiteCubit extends Cubit<ShowSiteStates> {
   List<Site> acceptedSites = [];
   List<Site> pendingSites = [];
   List<Site> coorSite = [];
+
+  SortRestaurantBy dropdownValue = SortRestaurantBy.distance;
+  void changeDropdownValue(String? val) {
+    switch (val) {
+      case "name":
+        dropdownValue = SortRestaurantBy.name;
+        break;
+      case "rate":
+        dropdownValue = SortRestaurantBy.rate;
+        break;
+      default:
+        dropdownValue = SortRestaurantBy.distance;
+    }
+    emit(ChangeDropdownValueStates());
+  }
 
   int editSiteIndex = -1;
   int wantedSiteID = -1;

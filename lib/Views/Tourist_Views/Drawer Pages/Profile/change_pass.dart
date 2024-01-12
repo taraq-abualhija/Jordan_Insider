@@ -30,6 +30,7 @@ class ChangePassScreen extends StatelessWidget {
                   description: Text("Change Password Success"))
               .show(context);
           await Future.delayed(Duration(milliseconds: 1500));
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         } else if (state is UserChangePassErrorState) {
           MotionToast.warning(

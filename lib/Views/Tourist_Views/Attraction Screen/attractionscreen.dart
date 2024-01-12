@@ -193,12 +193,32 @@ class AttractionScreen extends StatelessWidget {
                                         );
                                       },
                                       fallback: (context) {
-                                        return Text(
-                                          "Close",
-                                          style: TextStyle(
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red),
+                                        return Row(
+                                          children: [
+                                            Text(
+                                              "Close",
+                                              style: TextStyle(
+                                                  fontSize: 15.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.red),
+                                            ),
+                                            ConditionalBuilder(
+                                              condition: (cubit.getAttraction()
+                                                          as Site)
+                                                      .getTimeFrom() !=
+                                                  "00:00",
+                                              builder: (context) {
+                                                return Text(
+                                                  " until ${(cubit.getAttraction() as Site).getTimeFrom()}",
+                                                  style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                              fallback: null,
+                                            ),
+                                          ],
                                         );
                                       },
                                     ),
@@ -206,7 +226,15 @@ class AttractionScreen extends StatelessWidget {
                                   ],
                                 );
                               },
-                              fallback: null,
+                              fallback: (context) {
+                                return Row(
+                                  children: [
+                                    Text("Event Date : "),
+                                    Text((cubit.getAttraction() as SiteEvent)
+                                        .getStartDate()),
+                                  ],
+                                );
+                              },
                             ),
                           ),
                           /*Description*/ Container(

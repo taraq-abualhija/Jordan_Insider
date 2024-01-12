@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:jordan_insider/Controller/controller.dart';
-import 'package:jordan_insider/Shared/Constants.dart';
 
 class Attraction {
   int id = 0;
@@ -53,7 +52,6 @@ class Attraction {
         }
       }
     }
-    logger.t("End of _getAllImages");
   }
 
   @override

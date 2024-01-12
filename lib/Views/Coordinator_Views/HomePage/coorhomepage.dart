@@ -527,10 +527,8 @@ class CoorHomePage extends StatelessWidget {
                   cubit.deleteSite(attraction.getID());
                   Navigator.of(context).pop();
                   if (attraction is Site) {
-                    print("ShowSiteCubit");
                     ShowSiteCubit.getInstans().coorSite.remove(attraction);
                   } else {
-                    print("ShowEventCubit");
                     ShowEventCubit.getInstans().coorEvents.remove(attraction);
                   }
                 },

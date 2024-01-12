@@ -10,6 +10,8 @@ class GetSiteSuccessStates extends ShowSiteStates {}
 
 class GetSiteByIDSuccessStates extends ShowSiteStates {}
 
+class ChangeDropdownValueStates extends ShowSiteStates {}
+
 class ShowSiteErrorStates extends ShowSiteStates {
   final String error;
   ShowSiteErrorStates(this.error);

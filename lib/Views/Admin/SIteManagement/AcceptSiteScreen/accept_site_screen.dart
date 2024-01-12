@@ -41,7 +41,6 @@ class AcceptSiteScreen extends StatelessWidget {
               state is AcceptSiteInitialStates) {
             Navigator.pop(context);
           }
-
           return Scaffold(
             body: ConditionalBuilder(
               condition: (state is! AcceptSiteLoadingStates),
@@ -49,108 +48,120 @@ class AcceptSiteScreen extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          /*Images*/ Stack(
-                            children: [
-                              SizedBox(
-                                height: ScreenHeight(context) / 1.7,
-                                child: PageView.builder(
-                                  controller: pageController,
-                                  itemCount: cubit
-                                      .getSiteToAcceptScreen()!
-                                      .getImages()
-                                      .length,
-                                  itemBuilder: (context, index) {
-                                    return Image(
-                                      image: MemoryImage(
-                                        cubit
-                                            .getSiteToAcceptScreen()!
-                                            .getImages()[index]!,
-                                      ),
-                                      fit: BoxFit.fill,
-                                    );
-                                  },
-                                  onPageChanged: (index) {},
-                                ),
-                              ),
-                              SafeArea(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 40.w,
-                                  height: 40.w,
-                                  margin: EdgeInsets.only(left: 15.dg),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white54,
-                                      borderRadius: BorderRadius.circular(200)),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            /*Images*/ Stack(
+                              children: [
+                                SizedBox(
+                                  height: ScreenHeight(context) / 1.7,
+                                  child: PageView.builder(
+                                    controller: pageController,
+                                    itemCount: cubit
+                                        .getSiteToAcceptScreen()!
+                                        .getImages()
+                                        .length,
+                                    itemBuilder: (context, index) {
+                                      return Image(
+                                        image: MemoryImage(
+                                          cubit
+                                              .getSiteToAcceptScreen()!
+                                              .getImages()[index]!,
+                                        ),
+                                        fit: BoxFit.fill,
+                                      );
                                     },
-                                    icon: Icon(Icons.arrow_back_ios_new),
-                                    color: Colors.black,
-                                    iconSize: 25.w,
+                                    onPageChanged: (index) {},
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: ScreenHeight(context) / 100),
-                          /*Images Dot*/ SmoothPageIndicator(
-                            controller: pageController,
-                            count: (cubit.getSiteToAcceptScreen()!.getImages())
-                                .length,
-                            effect: ExpandingDotsEffect(
-                              dotColor: Colors.grey,
-                              dotHeight: 10.h,
-                              expansionFactor: 3,
-                              dotWidth: 10.w,
-                              spacing: 5,
+                                SafeArea(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: 40.w,
+                                    height: 40.w,
+                                    margin: EdgeInsets.only(left: 15.dg),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white54,
+                                        borderRadius:
+                                            BorderRadius.circular(200)),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(Icons.arrow_back_ios_new),
+                                      color: Colors.black,
+                                      iconSize: 25.w,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          /*Title*/ Container(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(top: 15.dg, left: 15.dg),
-                            child: Text(
-                              cubit.getSiteToAcceptScreen()!.getName(),
-                              style: TextStyle(
-                                fontSize: 25.sp,
-                                fontWeight: FontWeight.bold,
+                            SizedBox(height: ScreenHeight(context) / 100),
+                            /*Images Dot*/ SmoothPageIndicator(
+                              controller: pageController,
+                              count:
+                                  (cubit.getSiteToAcceptScreen()!.getImages())
+                                      .length,
+                              effect: ExpandingDotsEffect(
+                                dotColor: Colors.grey,
+                                dotHeight: 10.h,
+                                expansionFactor: 3,
+                                dotWidth: 10.w,
+                                spacing: 5,
                               ),
                             ),
-                          ),
-                          /*Location*/ Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.location_on, color: Colors.red),
-                              TextButton(
-                                onPressed: () async {
-                                  IntentUtils.getLocationByName(
+                            /*Title*/ Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(top: 15.dg, left: 15.dg),
+                              child: Text(
+                                cubit.getSiteToAcceptScreen()!.getName(),
+                                style: TextStyle(
+                                  fontSize: 25.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            /*Location*/ Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.location_on, color: Colors.red),
+                                TextButton(
+                                  onPressed: () async {
+                                    IntentUtils.getLocationByName(
+                                      cubit
+                                          .getSiteToAcceptScreen()!
+                                          .getLocation(),
+                                      context: context,
+                                    );
+                                  },
+                                  child: Text(
                                     cubit
                                         .getSiteToAcceptScreen()!
                                         .getLocation(),
-                                    context: context,
-                                  );
-                                },
-                                child: Text(
-                                  cubit.getSiteToAcceptScreen()!.getLocation(),
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                    style: TextStyle(
+                                      fontSize: cubit
+                                                  .getSiteToAcceptScreen()!
+                                                  .getLocation()
+                                                  .length <
+                                              25
+                                          ? 20.sp
+                                          : 10.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          /*Description*/ Container(
-                            margin: EdgeInsets.all(15.dg),
-                            child: Text(cubit
-                                .getSiteToAcceptScreen()!
-                                .getDescription()),
-                          ),
-                        ],
+                              ],
+                            ),
+                            /*Description*/ Container(
+                              margin: EdgeInsets.all(15.dg),
+                              child: Text(cubit
+                                  .getSiteToAcceptScreen()!
+                                  .getDescription()),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     ConditionalBuilder(

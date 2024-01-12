@@ -85,7 +85,7 @@ class _CameraScreenState extends State<CameraScreen> {
                           setState(() {});
                         }
                       } catch (e) {
-                        print(e);
+                        logger.e(e);
                       }
                     },
                     child: CircleAvatar(

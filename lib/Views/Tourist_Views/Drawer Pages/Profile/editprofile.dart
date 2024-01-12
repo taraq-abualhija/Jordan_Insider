@@ -62,6 +62,7 @@ class EditProfile extends StatelessWidget {
                     description: Text("Update Data Success"))
                 .show(context);
             await Future.delayed(Duration(milliseconds: 1500));
+            // ignore: use_build_context_synchronously
             Navigator.pop(context);
           } else if (state is UserDataUpdateErrorState) {
             MotionToast.warning(

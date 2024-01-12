@@ -29,15 +29,10 @@ class SearchScreen extends StatelessWidget {
           builder: (context, state) {
             var attCubit = ShowAttractionCubit.getInstans();
             var searchCubit = SearchCubit.getInstans();
-            print(searchCubit.getAttractions().length);
             return Scaffold(
               appBar: AppBarWithSearchSwitch(
-                onChanged: (text) {
-                  print(text);
-                },
-                onSubmitted: (text) {
-                  print(text);
-                },
+                onChanged: (text) {},
+                onSubmitted: (text) {},
                 appBarBuilder: (context) {
                   return myAppBar(actions: [
                     AppBarSearchButton(),

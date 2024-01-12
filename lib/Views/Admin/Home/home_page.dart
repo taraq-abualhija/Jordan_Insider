@@ -7,6 +7,8 @@ import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_cubit.dart';
 import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_state.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/showEventCubit/show_event_cubit.dart';
+import 'package:jordan_insider/Models/attraction.dart';
+import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Admin/AddCoor/add_coor_screen.dart';
 import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptNewSite/accept_new_sites.dart';
@@ -157,8 +159,13 @@ class AdminHomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                cubit.allSites[index].getName(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                cubit.allSites[index].getName().length < 20
+                                    ? cubit.allSites[index].getName()
+                                    : "${cubit.allSites[index].getName().substring(0, 20)}...",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               Text(
                                 cubit.allSites[index].getStatus(),
@@ -179,14 +186,10 @@ class AdminHomePage extends StatelessWidget {
                                         child: Text("Delete"),
                                         onTap: () {
                                           Navigator.pop(context);
-                                          _showConfirmationDialog(
-                                              context,
-                                              cubit.allSites[index].getID(),
-                                              cubit);
-                                          _showConfirmationDialog(
-                                              context,
-                                              cubit.allSites[index].getID(),
-                                              cubit);
+                                          _showConfirmationDialog(context,
+                                              cubit.allSites[index], cubit);
+                                          _showConfirmationDialog(context,
+                                              cubit.allSites[index], cubit);
                                         },
                                       ),
                                       PopupMenuItem(
@@ -327,10 +330,10 @@ class AdminHomePage extends StatelessWidget {
                                     child: Text("Delete"),
                                     onTap: () {
                                       Navigator.pop(context);
-                                      _showConfirmationDialog(context,
-                                          cubit.events[index].getID(), cubit);
-                                      _showConfirmationDialog(context,
-                                          cubit.events[index].getID(), cubit);
+                                      _showConfirmationDialog(
+                                          context, cubit.events[index], cubit);
+                                      _showConfirmationDialog(
+                                          context, cubit.events[index], cubit);
                                     },
                                   ),
                                   PopupMenuItem(
@@ -402,17 +405,26 @@ class AdminHomePage extends StatelessWidget {
     );
   }
 
-  void _showConfirmationDialog(BuildContext context, int deleteId, cubit) {
+  void _showConfirmationDialog(
+      BuildContext context, Attraction attraction, cubit) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Confirmation'),
-            content: Text('Are you sure you want to Delete this?'),
+            content: Text(
+                'Are you sure you want to Delete ${attraction.getName()} ?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  cubit.deleteSite(deleteId);
+                  cubit.deleteSite(attraction.getID());
+                  if (attraction is Site) {
+                    ShowSiteCubit.getInstans().allSites.remove(attraction);
+                    ShowSiteCubit.getInstans().acceptedSites.remove(attraction);
+                    ShowSiteCubit.getInstans().pendingSites.remove(attraction);
+                  } else {
+                    ShowEventCubit.getInstans().events.remove(attraction);
+                  }
                   Navigator.of(context).pop();
                 },
                 child: Text(

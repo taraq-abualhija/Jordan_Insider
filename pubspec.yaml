@@ -32,6 +32,8 @@ dependencies:
   http: ^1.1.0
   camera: ^0.10.5+7
   url_launcher: ^6.1.14
+  geolocator: ^10.1.0
+  permission_handler: ^11.0.1
   
 
 dev_dependencies:
