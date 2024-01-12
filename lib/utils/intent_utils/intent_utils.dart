@@ -109,7 +109,6 @@ class IntentUtils {
           logger.e('Error fetching nearby places: $error');
         }
       } else {
-        print("get Permission");
         _getLocationPermission();
       }
     } catch (e) {
@@ -123,7 +122,6 @@ class IntentUtils {
     var status = await Permission.location.status;
 
     if (status.isGranted) {
-      print("I can use Location");
       RestaurantCubit.getInstans().getNearByRestaurants();
       return;
     }
@@ -131,10 +129,7 @@ class IntentUtils {
     var result = await Permission.location.request();
 
     if (result.isGranted) {
-      print("I can use Location");
       RestaurantCubit.getInstans().getNearByRestaurants();
-    } else {
-      print("I can't use Location");
-    }
+    } else {}
   }
 }

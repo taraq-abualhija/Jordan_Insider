@@ -2,7 +2,8 @@ import 'package:jordan_insider/Views/Admin/AddCoor/add_coor_screen.dart';
 import 'package:jordan_insider/Views/Admin/Home/home_page.dart';
 import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptNewSite/accept_new_sites.dart';
 import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptSiteScreen/accept_site_screen.dart';
-import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/camera_screen.dart';
+import 'package:jordan_insider/Views/Shared_Views/imageProcessing/camera_screen.dart';
+import 'package:jordan_insider/Views/Shared_Views/imageProcessing/details_screen.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/change_pass.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/editprofile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
@@ -27,13 +28,14 @@ getRouts() {
     Profile.route: (context) => Profile(),
     EditProfile.route: (context) => EditProfile(),
     ChangePassScreen.route: (context) => ChangePassScreen(),
-    UserReviews.route: (context) => UserReviews(),
     CameraScreen.route: (context) => CameraScreen(),
+    DetailsScreen.route: (context) => DetailsScreen(),
     //-.-.-.-.-.-.-.-.-.-.-.-.-.-.//
     //----------Tourist-----------//
     TouristHomePage.route: (context) => TouristHomePage(),
     AttractionScreen.route: (context) => AttractionScreen(),
     SearchScreen.route: (context) => SearchScreen(),
+    UserReviews.route: (context) => UserReviews(),
     //-.-.-.-.-.-.-.-.-.-.-.-.-.-.//
     //-----------Admin------------//
     AdminHomePage.route: (context) => AdminHomePage(),

@@ -10,7 +10,7 @@ import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
 import 'package:jordan_insider/Controller/controller.dart';
 import 'package:jordan_insider/Models/coordinator_user.dart';
 import 'package:jordan_insider/Models/tourist_user.dart';
-import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/camera_screen.dart';
+import 'package:jordan_insider/Views/Shared_Views/imageProcessing/camera_screen.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/user_reviews.dart';
 import 'package:logger/logger.dart';
