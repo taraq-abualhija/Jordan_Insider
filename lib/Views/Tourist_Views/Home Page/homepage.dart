@@ -15,14 +15,13 @@ import 'package:jordan_insider/Views/Tourist_Views/Search_Screen/searchscreen.da
 import '../../../Shared/cardcreate.dart';
 
 bool getSites = true;
+final Set<Site> bestPlaces = {};
+final Set<SiteEvent> nextEvents = {};
+final Set<Restaurant> nearbyRestaurants = {};
 
 class TouristHomePage extends StatelessWidget {
   TouristHomePage({super.key});
   static String route = "TouristHomePage";
-
-  final Set<Site> bestPlaces = {};
-  final Set<SiteEvent> nextEvents = {};
-  final Set<Restaurant> nearbyRestaurants = {};
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

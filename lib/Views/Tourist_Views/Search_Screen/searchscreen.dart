@@ -1,4 +1,5 @@
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,8 +35,11 @@ class SearchScreen extends StatelessWidget {
             var searchCubit = SearchCubit.getInstans();
             return Scaffold(
               appBar: AppBarWithSearchSwitch(
-                onChanged: (text) {},
+                onChanged: (text) {
+                  searchCubit.searchSites(text);
+                },
                 onSubmitted: (text) {},
+                onCleared: () {},
                 appBarBuilder: (context) {
                   return myAppBar(actions: [
                     AppBarSearchButton(),
@@ -86,18 +90,30 @@ class SearchScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10.dg),
-                    Expanded(
-                      child: GridView.extent(
-                        maxCrossAxisExtent:
-                            MediaQuery.of(context).size.width / 3,
-                        mainAxisSpacing: 10.dg,
-                        children: searchCubit.getAttractions().isNotEmpty
-                            ? searchCubit.getAttractions().map((item) {
-                                return searchItem(context,
-                                    attraction: item, cubit: attCubit);
-                              }).toList()
-                            : [],
-                      ),
+                    ConditionalBuilder(
+                      condition: state is SearchSuccessStates,
+                      builder: (context) {
+                        return Expanded(
+                          child: GridView.extent(
+                            maxCrossAxisExtent:
+                                MediaQuery.of(context).size.width / 2,
+                            mainAxisSpacing: 10.dg,
+                            children: searchCubit.getAttractions().isNotEmpty
+                                ? searchCubit.getAttractions().map((item) {
+                                    return searchItem(context,
+                                        attraction: item, cubit: attCubit);
+                                  }).toList()
+                                : searchCubit.restaurant.isNotEmpty
+                                    ? searchCubit.restaurant.map((item) {
+                                        return searchRestaurantItem(context,
+                                            restaurant: item);
+                                      }).toList()
+                                    : [],
+                          ),
+                        );
+                      },
+                      fallback: (context) =>
+                          Center(child: CircularProgressIndicator()),
                     ),
                   ],
                 ),
@@ -172,6 +188,7 @@ class SearchScreen extends StatelessWidget {
         //Navigat to Map
       },
       child: Container(
+        alignment: Alignment.topCenter,
         margin: EdgeInsets.only(right: 3.dg, left: 3.dg),
         height: 125.h,
         width: 125.w,
@@ -182,7 +199,17 @@ class SearchScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           border: Border.all(),
         ),
-        child: Text(""),
+        child: Text(
+          restaurant.getName(),
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15.sp,
+              shadows: const [
+                Shadow(
+                    blurRadius: 15, color: Colors.black, offset: Offset(3, 2)),
+              ]),
+        ),
       ),
     );
   }

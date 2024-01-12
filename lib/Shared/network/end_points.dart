@@ -6,6 +6,7 @@ const GetTouristSiteById = "TouristSite/GetTouristSiteById/";
 const UpdateTouristSite = "TouristSite/UpdateTouristSite";
 const DeleteTouristSite = "TouristSite/DeleteTouristSite/";
 const AcceptTouristSite = "TouristSite/AcceptTouristSite/";
+const SearchTouristSiteByName = "TouristSite/SearchTouristSiteByName/";
 //--Events
 const GetAllEvents = "Event/GetAllEvents";
 const CreateEvent = "Event/CreateEvent";
