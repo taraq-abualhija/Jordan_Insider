@@ -5,7 +5,7 @@ import 'package:jordan_insider/Shared/Constants.dart';
 class Review {
   String _reviewerName = "";
   String _reviewText = "";
-  String? _reviewTime = "";
+  String _reviewTime = "";
   double _reviewRate = 0;
   int _touristsiteId = 0;
   // ignore: unused_field
@@ -51,7 +51,14 @@ class Review {
     _reviewText = reviewText;
   }
 
-  String? getReviewTime() => _reviewTime;
+  String getReviewTime() {
+    try {
+      DateTime date = DateTime.parse(_reviewTime);
+      _reviewTime = "${date.day}-${date.month}-${date.year}";
+    } catch (e) {}
+    return _reviewTime;
+  }
+
   void setReviewTime(String reviewTime) {
     _reviewTime = reviewTime;
   }

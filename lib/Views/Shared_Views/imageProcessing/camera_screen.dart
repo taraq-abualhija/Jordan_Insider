@@ -9,6 +9,7 @@ import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_
 import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_state.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Shared_Views/imageProcessing/details_screen.dart';
+import 'package:jordan_insider/utils/ChatGPT/chat_gpt.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -32,12 +33,14 @@ class _CameraScreenState extends State<CameraScreen> {
       ResolutionPreset.medium,
     );
     _initializeControllerFuture = _controller.initialize();
+    ChatGPT.init();
     super.initState();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    ImageProccessingCubit.getInstans().setImageToProccess(null);
     super.dispose();
   }
 

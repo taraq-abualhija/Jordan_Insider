@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_cubit.dart';
 import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_state.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
+import 'package:jordan_insider/utils/intent_utils/intent_utils.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
   static String route = "DetailsScreen";
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -15,11 +17,14 @@ class DetailsScreen extends StatelessWidget {
       child: BlocConsumer<ImageProccessingCubit, ImageProccessingStates>(
           listener: (context, state) {},
           builder: (context, state) {
+            var cubit = ImageProccessingCubit.getInstans();
+
             return Scaffold(
               appBar: myAppBar(),
               body: Stack(
                 children: [
                   Container(
+                    padding: EdgeInsets.all(10.dg),
                     decoration: BoxDecoration(
                       color: mainColor,
                       borderRadius: BorderRadius.circular(25),
@@ -30,7 +35,13 @@ class DetailsScreen extends StatelessWidget {
                     height: ScreenHeight(context) / 2.3,
                     child: Column(
                       children: [
-                        Row(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            searchAttButton(),
+                            searchRestButton(),
+                          ],
+                        ),
                         Row(),
                       ],
                     ),
@@ -73,14 +84,37 @@ class DetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget c() {
+  Widget searchAttButton() {
     return Container(
-      color: Colors.amber,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(15)),
+      width: 125.w,
       child: Column(
         children: [
-          Text("data"),
+          Image.asset("assets/images/searchIcons.png", fit: BoxFit.cover),
+          Text("nearby Attraction"),
         ],
       ),
     );
   }
+
+  Widget searchRestButton() {
+    return InkWell(
+      onTap: () {
+        ImageProccessingCubit.getInstans().searcForRest();
+      },
+      child: Container(
+        width: 125.w,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        child: Column(
+          children: [
+            Image.asset("assets/images/restaurantIcon.png", fit: BoxFit.cover),
+            Text("nearby Restaurant"),
+          ],
+        ),
+      ),
+    );
+  }
 }
+//Jordan Insider

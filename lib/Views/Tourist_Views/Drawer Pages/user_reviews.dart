@@ -23,8 +23,8 @@ class UserReviews extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => ReviewCubit()),
-        BlocProvider(create: (BuildContext context) => UserDataCubit()),
+        BlocProvider.value(value: ReviewCubit.getInstans()),
+        BlocProvider.value(value: UserDataCubit.getInstans()),
       ],
       child: BlocConsumer<ReviewCubit, ReviewStates>(
           listener: (context, state) {},

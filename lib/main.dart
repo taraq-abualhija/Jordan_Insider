@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
@@ -25,7 +26,7 @@ void main() async {
   DioHelper.init();
   await CacheHelper.init();
   String? token = CacheHelper.getData(key: "token");
-
+  await dotenv.load();
   Logger().t("Start Run the App");
 
   runApp(MyApp(token));
