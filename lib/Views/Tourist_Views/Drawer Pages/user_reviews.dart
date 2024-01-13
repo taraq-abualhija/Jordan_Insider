@@ -122,7 +122,7 @@ class UserReviews extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            review.getReviewTime() ?? "12-1-2024",
+                            review.getReviewTime(),
                             style: TextStyle(
                                 color: Colors.black45, fontSize: 15.sp),
                           ),

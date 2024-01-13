@@ -12,6 +12,7 @@ import 'package:jordan_insider/Models/review_user_dto.dart';
 import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Models/tourist_user.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Attraction%20Screen/buy_ticket_screen.dart';
 import 'package:jordan_insider/utils/intent_utils/intent_utils.dart';
 import 'package:simple_star_rating/simple_star_rating.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -37,7 +38,7 @@ class AttractionScreen extends StatelessWidget {
           if (cubit.getAttraction() == null) {
             Navigator.pop(context);
           }
-          if (firstTime) {
+          if (firstTime && cubit.getAttraction() is Site) {
             if (userCubit.userData is Tourist) {
               bool s = (userCubit.userData as Tourist)
                   .getUserFavorite()
@@ -312,7 +313,10 @@ class AttractionScreen extends StatelessWidget {
                             margin: EdgeInsets.all(15.dg),
                             child: DefaultButton(
                               text: "Buy Ticket",
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, BuyTicketScreen.route);
+                              },
                             ),
                           );
                         },

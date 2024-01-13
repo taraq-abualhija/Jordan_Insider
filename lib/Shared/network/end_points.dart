@@ -41,3 +41,9 @@ const DeleteFavoriteByUserAndTouristSite =
 const CreateNotification = "Notification/CreateNotification";
 const GetNotificationsByUserId = "Notification/GetNotificationsByUserId/";
 const DeleteNotification = "Notification/DeleteNotification/";
+//-Ticket
+const CreateTicket = "Ticket/CreateTicket";
+const GetTicketsByUserIdAndEventId =
+    "Ticket/GetTicketsByUserIdAndEventId/";//- ***/Uid/Tid
+
+

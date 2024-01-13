@@ -97,14 +97,5 @@ class Tourist extends User {
     _tickets = t;
   }
 
-  Ticket getTicketAt(int i) {
-    try {
-      return _tickets[i];
-    } catch (e) {
-      print("This index isn't valid in Visited Sites!");
-    }
-    return _tickets[0];
-  }
-
   List<Ticket> getTicket() => _tickets;
 }

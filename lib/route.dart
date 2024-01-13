@@ -4,6 +4,7 @@ import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptNewSite/accept_n
 import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptSiteScreen/accept_site_screen.dart';
 import 'package:jordan_insider/Views/Shared_Views/imageProcessing/camera_screen.dart';
 import 'package:jordan_insider/Views/Shared_Views/imageProcessing/details_screen.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Attraction%20Screen/buy_ticket_screen.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/change_pass.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/editprofile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
@@ -12,6 +13,7 @@ import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/loginpage.dart
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/signuppage.dart';
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/welcomepage.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/favorite.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/help.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/notification.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/user_reviews.dart';
 import 'Views/Coordinator_Views/AddSite/addsitepage.dart';
@@ -33,6 +35,7 @@ getRouts() {
     CameraScreen.route: (context) => CameraScreen(),
     DetailsScreen.route: (context) => DetailsScreen(),
     AppNotification.route: (context) => AppNotification(),
+    Help.route: (context) => Help(),
     //-.-.-.-.-.-.-.-.-.-.-.-.-.-.//
     //----------Tourist-----------//
     TouristHomePage.route: (context) => TouristHomePage(),
@@ -40,6 +43,7 @@ getRouts() {
     SearchScreen.route: (context) => SearchScreen(),
     UserReviews.route: (context) => UserReviews(),
     Favorite.route: (context) => Favorite(),
+    BuyTicketScreen.route: (context) => BuyTicketScreen(),
     //-.-.-.-.-.-.-.-.-.-.-.-.-.-.//
     //-----------Admin------------//
     AdminHomePage.route: (context) => AdminHomePage(),

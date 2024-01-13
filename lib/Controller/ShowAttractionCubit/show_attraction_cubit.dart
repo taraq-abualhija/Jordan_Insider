@@ -6,6 +6,7 @@ import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Models/attraction.dart';
 import 'package:jordan_insider/Models/review.dart';
 import 'package:jordan_insider/Models/review_user_dto.dart';
+import 'package:jordan_insider/Models/ticket.dart';
 import 'package:jordan_insider/Models/tourist_user.dart';
 import 'package:jordan_insider/Shared/network/end_points.dart';
 import 'package:jordan_insider/Shared/network/remote/dio_helper.dart';
@@ -22,6 +23,7 @@ class ShowAttractionCubit extends Cubit<ShowAttractionStates> {
   Attraction? _attraction;
   List<ReviewUserDTO> attractionReviews = [];
   Review? thisUserReview;
+  Ticket? userTicket;
 
   void setAttraction(Attraction attraction) {
     _attraction = attraction;
@@ -105,6 +107,34 @@ class ShowAttractionCubit extends Cubit<ShowAttractionStates> {
       emit(AddToFavoriteSuccessState());
     }).catchError((error) {
       emit(AddToFavoriteErrorState());
+    });
+  }
+
+  void buyTicket({required int eventID, required int userID}) {
+    emit(BuyTicketLoadingState());
+    DioHelper.postData(
+        url: CreateTicket,
+        data: {'eventid': eventID, 'userid': userID}).then((value) {
+      emit(BuyTicketSuccessState());
+    }).catchError((error) {
+      emit(BuyTicketSuccessState());
+    });
+  }
+
+  void getUserTicketByEventID() {
+    userTicket = null;
+    emit(GetUserTicketLoadingState());
+    String userID = UserDataCubit.getInstans().userData!.getId().toString();
+    String eventID = _attraction!.getID().toString();
+
+    DioHelper.getData(
+      url: "$GetTicketsByUserIdAndEventId$userID/$eventID",
+      query: {},
+    ).then((value) {
+      userTicket = Ticket.fromJson(value.data);
+      emit(GetUserTicketSuccessState());
+    }).catchError((error) {
+      emit(GetUserTicketErrorState());
     });
   }
 }

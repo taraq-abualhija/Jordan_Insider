@@ -13,6 +13,7 @@ import 'package:jordan_insider/Models/tourist_user.dart';
 import 'package:jordan_insider/Views/Shared_Views/imageProcessing/camera_screen.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/favorite.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/help.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/notification.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/user_reviews.dart';
 import 'package:logger/logger.dart';
@@ -306,7 +307,7 @@ Widget DefaultDrawer() {
                                 title: Text("Help"),
                                 leading: Icon(Icons.help),
                                 onTap: () {
-                                  // Navigator.pushNamed(context, Help.route);
+                                  Navigator.pushNamed(context, Help.route);
                                 },
                               ),
                               /*LogOut*/ ListTile(

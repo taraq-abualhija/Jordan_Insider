@@ -33,3 +33,17 @@ class AddToFavoriteLoadingState extends ShowAttractionStates {}
 class AddToFavoriteSuccessState extends ShowAttractionStates {}
 
 class AddToFavoriteErrorState extends ShowAttractionStates {}
+
+//-Ticket
+class BuyTicketLoadingState extends ShowAttractionStates {}
+
+class BuyTicketSuccessState extends ShowAttractionStates {}
+
+class BuyTicketErrorState extends ShowAttractionStates {}
+
+//-----
+class GetUserTicketLoadingState extends ShowAttractionStates {}
+
+class GetUserTicketSuccessState extends ShowAttractionStates {}
+
+class GetUserTicketErrorState extends ShowAttractionStates {}
