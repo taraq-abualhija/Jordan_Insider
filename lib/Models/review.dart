@@ -55,7 +55,9 @@ class Review {
     try {
       DateTime date = DateTime.parse(_reviewTime);
       _reviewTime = "${date.day}-${date.month}-${date.year}";
-    } catch (e) {}
+    } catch (e) {
+      e;
+    }
     return _reviewTime;
   }
 

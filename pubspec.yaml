@@ -35,6 +35,9 @@ dependencies:
   geolocator: ^10.1.0
   permission_handler: ^11.0.1
   flutter_dotenv: ^5.1.0
+  path_provider: ^2.1.2
+  flutter_downloader: ^1.11.6
+  path: ^1.8.3
   
 
 dev_dependencies:
@@ -57,6 +60,7 @@ flutter:
     - assets/images/
     - assets/sounds/
     - .env
+    - assets/help.docx
   
   # fonts:
   #   - family: AmiriQuran

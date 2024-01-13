@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 class ChatGPT {
   static Dio dio = Dio();
   static init() {
-    print("init");
     dio = Dio(
       BaseOptions(
         baseUrl: "https://api.openai.com/v1/completions",
@@ -14,7 +13,6 @@ class ChatGPT {
         },
       ),
     );
-    print("init");
   }
 
   static Future<Response> ask(String msg) async {

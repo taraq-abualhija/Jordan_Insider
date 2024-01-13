@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_cubit.dart';
 import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_state.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
-import 'package:jordan_insider/utils/intent_utils/intent_utils.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
@@ -17,7 +16,7 @@ class DetailsScreen extends StatelessWidget {
       child: BlocConsumer<ImageProccessingCubit, ImageProccessingStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            var cubit = ImageProccessingCubit.getInstans();
+            // var cubit = ImageProccessingCubit.getInstans();
 
             return Scaffold(
               appBar: myAppBar(),

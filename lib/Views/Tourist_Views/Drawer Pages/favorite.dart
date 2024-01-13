@@ -17,7 +17,6 @@ class Favorite extends StatelessWidget {
   static String route = "Favorite";
   @override
   Widget build(BuildContext context) {
-    print((UserDataCubit.getInstans().userData as Tourist).getUserFavorite());
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: UserDataCubit.getInstans()),
