@@ -513,12 +513,21 @@ class AttractionScreen extends StatelessWidget {
                               onPressed: () {
                                 if (cubit.thisUserReview == null) {
                                   userCubit
-                                      .addReview(Review(
-                                          cubit.getAttraction()!.getID(),
-                                          userCubit.userData!.getFullName(),
-                                          reviewText.text,
-                                          "",
-                                          reviewRate))
+                                      .addReview(
+                                          Review(
+                                              cubit.getAttraction()!.getID(),
+                                              userCubit.userData!.getFullName(),
+                                              reviewText.text,
+                                              "",
+                                              reviewRate),
+                                          receiverId:
+                                              ShowAttractionCubit.getInstans()
+                                                  .getAttraction()!
+                                                  .coordinatorid,
+                                          siteName:
+                                              ShowAttractionCubit.getInstans()
+                                                  .getAttraction()!
+                                                  .getName())
                                       .then((value) {
                                     state is UserDataAddReviewSuccessState
                                         ? Navigator.pop(context)

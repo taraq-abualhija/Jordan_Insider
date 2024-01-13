@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
+import 'package:jordan_insider/Controller/controller.dart';
 import 'package:jordan_insider/Models/admin_user.dart';
 import 'package:jordan_insider/Models/coordinator_user.dart';
 import 'package:jordan_insider/Models/review.dart';
@@ -124,7 +125,8 @@ class UserDataCubit extends Cubit<UserDataStates> {
     return false;
   }
 
-  Future<void> addReview(Review review) async {
+  Future<void> addReview(Review review,
+      {required int receiverId, required String siteName}) async {
     emit(UserDataAddReviewLoadingState());
 
     DioHelper.postData(
@@ -137,6 +139,9 @@ class UserDataCubit extends Cubit<UserDataStates> {
       },
     ).then((value) {
       emit(UserDataAddReviewSuccessState());
+      sendNotification(
+          receiverId: receiverId,
+          msg: "New Review add to your Site\"$siteName\"");
       (userData as Tourist).addReview(review);
     }).catchError((error) {
       emit(UserDataAddReviewErrorState(error.toString()));

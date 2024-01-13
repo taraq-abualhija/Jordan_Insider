@@ -37,3 +37,7 @@ const GetFavoritesByUserId = "Favorite/GetFavoritesByUserId/";
 const CreateFavorite = "Favorite/CreateFavorite";
 const DeleteFavoriteByUserAndTouristSite =
     "Favorite/DeleteFavoriteByUserAndTouristSite/"; //- ***/Uid/Tid
+//-Notification
+const CreateNotification = "Notification/CreateNotification";
+const GetNotificationsByUserId = "Notification/GetNotificationsByUserId/";
+const DeleteNotification = "Notification/DeleteNotification/";

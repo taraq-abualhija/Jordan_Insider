@@ -39,3 +39,12 @@ void userLogOut(BuildContext context) {
   Navigator.pushNamedAndRemoveUntil(
       context, WelcomePage.route, (route) => false);
 }
+
+void sendNotification({
+  required int receiverId,
+  required String msg,
+}) {
+  DioHelper.postData(
+      url: CreateNotification,
+      data: {"userid": receiverId, "notificationtxt": msg});
+}

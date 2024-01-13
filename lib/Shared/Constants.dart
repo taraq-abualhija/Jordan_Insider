@@ -13,6 +13,7 @@ import 'package:jordan_insider/Models/tourist_user.dart';
 import 'package:jordan_insider/Views/Shared_Views/imageProcessing/camera_screen.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/favorite.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/notification.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/user_reviews.dart';
 import 'package:logger/logger.dart';
 
@@ -283,7 +284,8 @@ Widget DefaultDrawer() {
                                 title: Text("Notification"),
                                 leading: Icon(Icons.notifications),
                                 onTap: () {
-                                  // Navigator.pushNamed(context, AppNotification.route);
+                                  Navigator.pushNamed(
+                                      context, AppNotification.route);
                                 },
                               ),
                               /*For Coordinator*/ userData is Coordinator
