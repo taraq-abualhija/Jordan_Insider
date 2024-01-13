@@ -26,3 +26,10 @@ class ShowAttractionErrorStates extends ShowAttractionStates {
   final String error;
   ShowAttractionErrorStates(this.error);
 }
+
+//-Fav.
+class AddToFavoriteLoadingState extends ShowAttractionStates {}
+
+class AddToFavoriteSuccessState extends ShowAttractionStates {}
+
+class AddToFavoriteErrorState extends ShowAttractionStates {}

@@ -12,6 +12,7 @@ import 'package:jordan_insider/Models/coordinator_user.dart';
 import 'package:jordan_insider/Models/tourist_user.dart';
 import 'package:jordan_insider/Views/Shared_Views/imageProcessing/camera_screen.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/favorite.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/user_reviews.dart';
 import 'package:logger/logger.dart';
 
@@ -200,7 +201,9 @@ Widget DefaultDrawer() {
                 /*Favorite*/ ListTile(
                   title: Text("Favorite"),
                   leading: Icon(Icons.favorite),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Favorite.route);
+                  },
                 ),
                 /*Tickets*/ ListTile(
                   title: Text("Tickets"),

@@ -4,7 +4,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
+import 'package:jordan_insider/Models/tourist_user.dart';
+import 'package:jordan_insider/Shared/network/end_points.dart';
 import 'package:jordan_insider/Shared/network/local/cache_helper.dart';
+import 'package:jordan_insider/Shared/network/remote/dio_helper.dart';
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/welcomepage.dart';
 
 Future<Uint8List?> getImageBy(String imageName) async {
@@ -15,6 +18,16 @@ Future<Uint8List?> getImageBy(String imageName) async {
   } else {
     return null;
   }
+}
+
+void getFavorite({required int userId}) {
+  DioHelper.getData(url: GetFavoritesByUserId + userId.toString(), query: {})
+      .then((value) {
+    for (var element in value.data) {
+      (UserDataCubit.getInstans().userData as Tourist)
+          .addFavorite(element['touristsiteid']);
+    }
+  }).catchError((error) {});
 }
 
 void userLogOut(BuildContext context) {

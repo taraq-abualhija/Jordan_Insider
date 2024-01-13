@@ -32,3 +32,8 @@ const UpdateReview = "Review/UpdateReview";
 const DeleteReview = "Review/DeleteReview/";
 //-Email
 const EmailURL = "Email/";
+//-Favoritef
+const GetFavoritesByUserId = "Favorite/GetFavoritesByUserId/";
+const CreateFavorite = "Favorite/CreateFavorite";
+const DeleteFavoriteByUserAndTouristSite =
+    "Favorite/DeleteFavoriteByUserAndTouristSite/"; //- ***/Uid/Tid

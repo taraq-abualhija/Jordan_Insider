@@ -11,6 +11,7 @@ class Tourist extends User {
   String _phoneNum = "";
   Set<Review> _reviews = {};
   List<Ticket> _tickets = [];
+  final List<int> _favoriteSites = [];
 
   Tourist() : super(0, 3);
 
@@ -26,6 +27,22 @@ class Tourist extends User {
     if (getImageName() != null) {
       setImageU8LAwait(getImageBy(getImageName()!));
     }
+    getFavorite(userId: getId());
+  }
+
+  void addFavorite(int id) {
+    _favoriteSites.add(id);
+  }
+
+  List<int> getUserFavorite() => _favoriteSites;
+
+  void setFavorite(List<int> f) {
+    _favoriteSites.clear();
+    _favoriteSites.addAll(f);
+  }
+
+  void removeFromFavorite(int id) {
+    _favoriteSites.remove(id);
   }
 
   void setPhoneNum(String phoneNum) {

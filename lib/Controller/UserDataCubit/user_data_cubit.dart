@@ -189,4 +189,19 @@ class UserDataCubit extends Cubit<UserDataStates> {
       emit(UserChangePassErrorState());
     });
   }
+
+  void removeFromFav(int attID) {
+    emit(UserGetDataLoadingState());
+
+    int userId = UserDataCubit.getInstans().userData!.getId();
+    DioHelper.deleteData(
+            url: "$DeleteFavoriteByUserAndTouristSite$userId/$attID")
+        .then((value) {
+      (UserDataCubit.getInstans().userData as Tourist)
+          .removeFromFavorite(attID);
+      emit(UserGetDataSuccessState(userData!));
+    }).catchError((error) {
+      emit(UserGetDataErrorState(error.toString()));
+    });
+  }
 }

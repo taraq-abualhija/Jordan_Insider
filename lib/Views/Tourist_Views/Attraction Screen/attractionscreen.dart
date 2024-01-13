@@ -38,6 +38,20 @@ class AttractionScreen extends StatelessWidget {
             Navigator.pop(context);
           }
           if (firstTime) {
+            if (userCubit.userData is Tourist) {
+              bool s = (userCubit.userData as Tourist)
+                  .getUserFavorite()
+                  .where((element) {
+                return element == cubit.getAttraction()?.getID();
+              }).isNotEmpty;
+              if (s) {
+                cubit.favColor = Colors.red;
+                cubit.favIcon = Icons.favorite;
+              } else {
+                cubit.favColor = Colors.black;
+                cubit.favIcon = Icons.favorite_border;
+              }
+            }
             cubit.getReviews(userCubit.userData!.getId());
             firstTime = false;
           }
@@ -222,7 +236,26 @@ class AttractionScreen extends StatelessWidget {
                                         );
                                       },
                                     ),
-                                    Icon(Icons.favorite_border, size: 25.sp),
+                                    ConditionalBuilder(
+                                      condition: userCubit.userData is Tourist,
+                                      builder: (context) {
+                                        return InkWell(
+                                          onTap: () {
+                                            if (!cubit.isFav) {
+                                              cubit.addToFav();
+                                            } else {
+                                              cubit.removeFromFav();
+                                            }
+                                          },
+                                          child: Icon(
+                                            cubit.favIcon,
+                                            size: 25.sp,
+                                            color: cubit.favColor,
+                                          ),
+                                        );
+                                      },
+                                      fallback: null,
+                                    ),
                                   ],
                                 );
                               },
