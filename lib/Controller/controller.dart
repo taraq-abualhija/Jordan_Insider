@@ -48,3 +48,11 @@ void sendNotification({
       url: CreateNotification,
       data: {"userid": receiverId, "notificationtxt": msg});
 }
+
+void sendEmail(
+    {required String email, required String msg, required String subject}) {
+  DioHelper.postData(
+    url: EmailURL,
+    data: {"to": email, "plainText": msg, "subject": subject},
+  );
+}

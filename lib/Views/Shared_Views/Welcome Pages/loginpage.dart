@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/LoginCubit/login_cubit.dart';
 import 'package:jordan_insider/Controller/LoginCubit/login_state.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
+import 'package:jordan_insider/Controller/controller.dart';
 import 'package:jordan_insider/Views/Admin/Home/home_page.dart';
 import 'package:jordan_insider/Views/Coordinator_Views/HomePage/coorhomepage.dart';
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/signuppage.dart';
@@ -167,7 +168,26 @@ class LoginPage extends StatelessWidget {
                                   CircularProgressIndicator(),
                             ),
                             SizedBox(height: ScreenHeight(context) / 40),
-                            Text("Forgot password?"),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Forgot password?"),
+                                TextButton(
+                                  onPressed: () async {
+                                    if (formKey.currentState!.validate()) {
+                                      sendEmail(
+                                          email: emailController.text,
+                                          msg: "Your Password is : pass123",
+                                          subject: "Forgot you password?");
+                                      MotionToast.success(
+                                          description: Text(
+                                              "Password sent to your Email"));
+                                    }
+                                  },
+                                  child: Text("Send Password"),
+                                ),
+                              ],
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
