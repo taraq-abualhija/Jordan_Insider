@@ -115,9 +115,10 @@ class ShowAttractionCubit extends Cubit<ShowAttractionStates> {
     DioHelper.postData(
         url: CreateTicket,
         data: {'eventid': eventID, 'userid': userID}).then((value) {
+      getUserTicketByEventID();
       emit(BuyTicketSuccessState());
     }).catchError((error) {
-      emit(BuyTicketSuccessState());
+      emit(BuyTicketErrorState());
     });
   }
 

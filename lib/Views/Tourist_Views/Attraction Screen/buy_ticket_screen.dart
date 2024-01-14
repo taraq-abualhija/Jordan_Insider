@@ -13,6 +13,7 @@ class BuyTicketScreen extends StatelessWidget {
   static String route = "BuyTicketScreen";
   @override
   Widget build(BuildContext context) {
+    bool firstTime = true;
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: UserDataCubit.getInstans()),
@@ -24,6 +25,11 @@ class BuyTicketScreen extends StatelessWidget {
           var attCubit = ShowAttractionCubit.getInstans();
           var userCubit = UserDataCubit.getInstans();
           SiteEvent event = attCubit.getAttraction() as SiteEvent;
+          if (firstTime) {
+            print('object');
+            attCubit.getUserTicketByEventID();
+            firstTime = false;
+          }
           return Scaffold(
             appBar: myAppBar(),
             body: Container(
@@ -79,7 +85,7 @@ class BuyTicketScreen extends StatelessWidget {
                         ConditionalBuilder(
                           condition: attCubit.userTicket != null,
                           builder: (context) {
-                            return Text("You already have 0 tickets");
+                            return Text("You already have Buy this ticket");
                           },
                           fallback: null,
                         ),
@@ -88,12 +94,14 @@ class BuyTicketScreen extends StatelessWidget {
                           gradientColor1: Color.fromARGB(255, 60, 180, 60),
                           width: ScreenWidth(context) / 2,
                           text: "Buy",
-                          onPressed: () {
-                            attCubit.buyTicket(
-                              eventID: event.getID(),
-                              userID: userCubit.userData!.getId(),
-                            );
-                          },
+                          onPressed: attCubit.userTicket == null
+                              ? () {
+                                  attCubit.buyTicket(
+                                    eventID: event.getID(),
+                                    userID: userCubit.userData!.getId(),
+                                  );
+                                }
+                              : null,
                         ),
                       ],
                     ),
@@ -107,10 +115,3 @@ class BuyTicketScreen extends StatelessWidget {
     );
   }
 }
-/**
- * {
-  "ticketid": 0,
-  "eventid": 0,
-  "userid": 0
-}
- */

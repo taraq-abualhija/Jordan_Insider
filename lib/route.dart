@@ -15,6 +15,7 @@ import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/welcomepage.da
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/favorite.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/help.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/notification.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/tickets.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/user_reviews.dart';
 import 'Views/Coordinator_Views/AddSite/addsitepage.dart';
 import 'Views/Coordinator_Views/AddEventScreen/addeventscreen.dart';
@@ -44,6 +45,7 @@ getRouts() {
     UserReviews.route: (context) => UserReviews(),
     Favorite.route: (context) => Favorite(),
     BuyTicketScreen.route: (context) => BuyTicketScreen(),
+    Tickets.route: (context) => Tickets(),
     //-.-.-.-.-.-.-.-.-.-.-.-.-.-.//
     //-----------Admin------------//
     AdminHomePage.route: (context) => AdminHomePage(),

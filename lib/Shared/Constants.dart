@@ -8,13 +8,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
 import 'package:jordan_insider/Controller/controller.dart';
-import 'package:jordan_insider/Models/coordinator_user.dart';
 import 'package:jordan_insider/Models/tourist_user.dart';
 import 'package:jordan_insider/Views/Shared_Views/imageProcessing/camera_screen.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/Profile/profile.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/favorite.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/help.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/notification.dart';
+import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/tickets.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Drawer%20Pages/user_reviews.dart';
 import 'package:logger/logger.dart';
 
@@ -173,18 +173,6 @@ Widget DefaultDrawer() {
         builder: (context, state) {
           var userData = UserDataCubit.getInstans().userData;
 
-          Widget CoordinatorMenu() {
-            return Column(
-              children: [
-                /*Tickets*/ ListTile(
-                  title: Text("Tickets"),
-                  leading: Icon(Icons.local_activity),
-                  onTap: () {},
-                ),
-              ],
-            );
-          }
-
           Widget TouristMenu() {
             return Column(
               children: [
@@ -210,7 +198,9 @@ Widget DefaultDrawer() {
                 /*Tickets*/ ListTile(
                   title: Text("Tickets"),
                   leading: Icon(Icons.local_activity),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Tickets.route);
+                  },
                 ),
               ],
             );
@@ -289,9 +279,6 @@ Widget DefaultDrawer() {
                                       context, AppNotification.route);
                                 },
                               ),
-                              /*For Coordinator*/ userData is Coordinator
-                                  ? CoordinatorMenu()
-                                  : Container(),
                               /*For Tourist*/ userData is Tourist
                                   ? TouristMenu()
                                   : Container(),

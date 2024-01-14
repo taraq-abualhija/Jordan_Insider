@@ -307,7 +307,8 @@ class AttractionScreen extends StatelessWidget {
                         fallback: null,
                       ),
                       /*#Buy Ticket*/ ConditionalBuilder(
-                        condition: cubit.getAttraction() is SiteEvent,
+                        condition: cubit.getAttraction() is SiteEvent &&
+                            userCubit.userData is Tourist,
                         builder: (context) {
                           return Container(
                             margin: EdgeInsets.all(15.dg),

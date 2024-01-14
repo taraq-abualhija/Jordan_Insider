@@ -43,6 +43,8 @@ const GetNotificationsByUserId = "Notification/GetNotificationsByUserId/";
 const DeleteNotification = "Notification/DeleteNotification/";
 //-Ticket
 const CreateTicket = "Ticket/CreateTicket";
+const GetTicketsByUserId = "Ticket/GetTicketsByUserId/";
+const DeleteTicket = "Ticket/DeleteTicket/";
 const GetTicketsByUserIdAndEventId =
     "Ticket/GetTicketsByUserIdAndEventId/";//- ***/Uid/Tid
 
