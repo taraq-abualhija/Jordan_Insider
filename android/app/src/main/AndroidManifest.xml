@@ -5,7 +5,7 @@
    
 
     <application
-        android:label="jordan_insider"
+        android:label="Jordan Insider"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

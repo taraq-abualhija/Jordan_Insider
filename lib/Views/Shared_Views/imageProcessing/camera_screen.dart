@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -150,6 +149,7 @@ class _CameraScreenState extends State<CameraScreen> {
       XFile image = await _controller.takePicture();
 
       ImageProccessingCubit.getInstans().setImageToProccess(image);
+
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, DetailsScreen.route);
     } on CameraException catch (e) {

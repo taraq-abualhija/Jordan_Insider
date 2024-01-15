@@ -183,11 +183,6 @@ Widget DefaultDrawer() {
                     Navigator.pushNamed(context, UserReviews.route);
                   },
                 ),
-                /*Visited History*/ ListTile(
-                  title: Text("Visited History"),
-                  leading: Icon(Icons.history_outlined),
-                  onTap: () {},
-                ),
                 /*Favorite*/ ListTile(
                   title: Text("Favorite"),
                   leading: Icon(Icons.favorite),

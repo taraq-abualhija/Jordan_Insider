@@ -26,7 +26,6 @@ class BuyTicketScreen extends StatelessWidget {
           var userCubit = UserDataCubit.getInstans();
           SiteEvent event = attCubit.getAttraction() as SiteEvent;
           if (firstTime) {
-            print('object');
             attCubit.getUserTicketByEventID();
             firstTime = false;
           }
