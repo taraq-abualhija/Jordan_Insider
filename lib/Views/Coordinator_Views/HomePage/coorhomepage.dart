@@ -211,9 +211,7 @@ class CoorHomePage extends StatelessWidget {
                                             child: Text("Edit"),
                                             onTap: () {
                                               cubit.editSiteIndex = index;
-                                              Navigator.pop(context);
-                                              Navigator.pushNamed(
-                                                  context, AddSitePage.route);
+
                                               Navigator.pushNamed(
                                                   context, AddSitePage.route);
                                             },
@@ -221,9 +219,6 @@ class CoorHomePage extends StatelessWidget {
                                           PopupMenuItem(
                                             child: Text("Delete"),
                                             onTap: () {
-                                              Navigator.pop(context);
-                                              _showConfirmationDialog(context,
-                                                  cubit.coorSite[index], cubit);
                                               _showConfirmationDialog(context,
                                                   cubit.coorSite[index], cubit);
                                             },
@@ -235,9 +230,6 @@ class CoorHomePage extends StatelessWidget {
                                                   .setAttraction(
                                                       cubit.coorSite[index]);
 
-                                              Navigator.pop(context);
-                                              Navigator.pushNamed(context,
-                                                  AttractionScreen.route);
                                               Navigator.pushNamed(context,
                                                   AttractionScreen.route);
                                             },
@@ -395,9 +387,7 @@ class CoorHomePage extends StatelessWidget {
                                             child: Text("Edit"),
                                             onTap: () {
                                               cubit.editEventIndex = index;
-                                              Navigator.pop(context);
-                                              Navigator.pushNamed(context,
-                                                  AddEventScreen.route);
+
                                               Navigator.pushNamed(context,
                                                   AddEventScreen.route);
                                             },
@@ -405,11 +395,6 @@ class CoorHomePage extends StatelessWidget {
                                           PopupMenuItem(
                                             child: Text("Delete"),
                                             onTap: () {
-                                              Navigator.pop(context);
-                                              _showConfirmationDialog(
-                                                  context,
-                                                  cubit.coorEvents[index],
-                                                  cubit);
                                               _showConfirmationDialog(
                                                   context,
                                                   cubit.coorEvents[index],
@@ -422,9 +407,6 @@ class CoorHomePage extends StatelessWidget {
                                               ShowAttractionCubit.getInstans()
                                                   .setAttraction(
                                                       cubit.coorEvents[index]);
-                                              Navigator.pop(context);
-                                              Navigator.pushNamed(context,
-                                                  AttractionScreen.route);
                                               Navigator.pushNamed(context,
                                                   AttractionScreen.route);
                                             },

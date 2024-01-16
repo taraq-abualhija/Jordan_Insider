@@ -7,15 +7,16 @@ import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:motion_toast/motion_toast.dart';
 
+var oldPassController = TextEditingController();
+var newPassController = TextEditingController();
+var new2PassController = TextEditingController();
+var formKey = GlobalKey<FormState>();
+
 class ChangePassScreen extends StatelessWidget {
   const ChangePassScreen({super.key});
   static String route = "ChangePassScreen";
   @override
   Widget build(BuildContext context) {
-    var oldPassController = TextEditingController();
-    var newPassController = TextEditingController();
-    var new2PassController = TextEditingController();
-    var formKey = GlobalKey<FormState>();
     RegExp passReg = RegExp(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$");
 
     return BlocProvider.value(

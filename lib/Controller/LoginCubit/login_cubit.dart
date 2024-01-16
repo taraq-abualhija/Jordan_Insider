@@ -64,14 +64,14 @@ class LoginCubit extends Cubit<LoginStates> {
     });
   }
 
-  void createCoor(
-      {required String email, required String pass, String? phone}) {
-    emit(LoginLoadingState());
+  Future<void> createCoor(
+      {required String email, required String pass, String? phone}) async {
+    emit(CreateCoordinatorLoadingState());
     String emailBody =
-        "You are now registered in Jordan Insider as a Coordinator for our community\n";
-    emailBody += "You Can log in with this account:\n";
-    emailBody += "Email : $email\n";
-    emailBody += "Password: $pass\n\n";
+        "You are now registered in Jordan Insider as a Coordinator for our community<br>";
+    emailBody += "You Can log in with this account:<br>";
+    emailBody += "Email : $email<br>";
+    emailBody += "Password: $pass<br><br>";
     emailBody += "Admin";
 
     Email newEmail = Email(
@@ -80,7 +80,7 @@ class LoginCubit extends Cubit<LoginStates> {
       emailBody: emailBody,
     );
 
-    DioHelper.postData(
+    await DioHelper.postData(
       url: CreateCoordinator,
       data: {"password": pass, "email": email, "phonenum": phone},
     ).then((value) async {

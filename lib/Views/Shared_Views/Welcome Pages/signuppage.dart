@@ -8,18 +8,19 @@ import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/loginpage.dart
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:motion_toast/motion_toast.dart';
 
+var emailController = TextEditingController();
+var passwordController = TextEditingController();
+var confirmPassController = TextEditingController();
+var formKey = GlobalKey<FormState>();
+
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
   static String route = "SignUp";
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var confirmPassController = TextEditingController();
     RegExp emailReg = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     RegExp passReg = RegExp(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$");
-    var formKey = GlobalKey<FormState>();
 
     return BlocProvider.value(
       value: SignUpCubit.getInstans(),
@@ -45,7 +46,6 @@ class SignUp extends StatelessWidget {
         builder: (context, state) {
           SignUpCubit cubit = SignUpCubit.getInstans();
           return Scaffold(
-            resizeToAvoidBottomInset: false,
             appBar: myAppBar(),
             body: Container(
               color: Colors.blue[200],
@@ -53,50 +53,49 @@ class SignUp extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(
+                  /*Image*/ Expanded(
                     flex: 1,
                     child: Stack(
+                      alignment: Alignment.bottomCenter,
                       children: [
                         const Image(
                           image: AssetImage("assets/images/sky.png"),
                           width: double.infinity,
                           fit: BoxFit.cover,
                         ),
-                        Container(
-                          width: ScreenWidth(context) / 3,
-                          alignment: Alignment.bottomLeft,
-                          child: Image(
-                            image: AssetImage("assets/images/person.png"),
-                            width: 90.h,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Image(
+                              image: AssetImage("assets/images/person.png"),
+                              width: 90.h,
+                            ),
+                            Image(
+                              image: AssetImage("assets/images/jarash.png"),
+                              width: 150.h,
+                            ),
+                          ],
                         ),
-                        Container(
-                          width: double.infinity,
-                          alignment: Alignment.bottomRight,
-                          // color: Colors.amber,
-                          child: Image(
-                            image: AssetImage("assets/images/jarash.png"),
-                            width: 210.w,
-                          ),
-                        )
                       ],
                     ),
                   ),
                   Expanded(
                     flex: 3,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.dg),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20)),
-                        color: Colors.white,
-                      ),
-                      width: double.infinity,
-                      height: ScreenHeight(context) * 2 / 3,
-                      child: Form(
-                        key: formKey,
-                        child: SingleChildScrollView(
+                    child: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20.dg),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white,
+                        ),
+                        width: double.infinity,
+                        height: ScreenHeight(context) * 2 / 3,
+                        child: Form(
+                          key: formKey,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

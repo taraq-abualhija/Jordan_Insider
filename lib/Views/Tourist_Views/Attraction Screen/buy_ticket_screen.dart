@@ -96,7 +96,7 @@ class BuyTicketScreen extends StatelessWidget {
                           onPressed: attCubit.userTicket == null
                               ? () {
                                   attCubit.buyTicket(
-                                    eventID: event.getID(),
+                                    event: event,
                                     userID: userCubit.userData!.getId(),
                                   );
                                 }

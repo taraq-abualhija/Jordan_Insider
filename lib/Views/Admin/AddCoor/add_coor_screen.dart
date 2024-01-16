@@ -20,8 +20,8 @@ class AddCoordinatorScreen extends StatelessWidget {
   static String route = "AddCoordinatorScreen";
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginCubit(),
+    return BlocProvider.value(
+      value: LoginCubit.getInstans(),
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
           if (state is LoginErrorState) {
@@ -39,8 +39,8 @@ class AddCoordinatorScreen extends StatelessWidget {
             passController.clear();
             phoneController.clear();
           } else if (state is CreateCoordinatorSuccessState) {
-            MotionToast.warning(
-              title: Text("Sorry"),
+            MotionToast.success(
+              title: Text("Done"),
               description: Text("Add Coordinator Successfully"),
               position: MotionToastPosition.top,
             ).show(context);
@@ -104,7 +104,7 @@ class AddCoordinatorScreen extends StatelessWidget {
                       ],
                     ),
                     ConditionalBuilder(
-                      condition: state is! LoginLoadingState,
+                      condition: state is! CreateCoordinatorLoadingState,
                       builder: (context) {
                         return DefaultButton(
                           text: "Add Coordinator",

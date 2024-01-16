@@ -12,6 +12,8 @@ class LoginSuccessState extends LoginStates {
   LoginSuccessState(this.thisUser);
 }
 
+class CreateCoordinatorLoadingState extends LoginStates {}
+
 class CreateCoordinatorSuccessState extends LoginStates {}
 
 class CreateCoordinatorErrorState extends LoginStates {

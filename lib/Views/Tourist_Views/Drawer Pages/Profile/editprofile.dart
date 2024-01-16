@@ -20,6 +20,7 @@ bool firstTime = true;
 var nameController = TextEditingController();
 var phoneNoController = TextEditingController();
 var emailController = TextEditingController();
+var formKey = GlobalKey<FormState>();
 
 class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
@@ -47,8 +48,6 @@ class EditProfile extends StatelessWidget {
       emailController = TextEditingController(text: cubit.userData!.getEmail());
       firstTime = false;
     }
-
-    var formKey = GlobalKey<FormState>();
 
     return BlocProvider.value(
       value: UserDataCubit.getInstans(),

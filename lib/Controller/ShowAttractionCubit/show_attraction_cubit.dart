@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_state.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
+import 'package:jordan_insider/Controller/controller.dart';
 import 'package:jordan_insider/Models/attraction.dart';
+import 'package:jordan_insider/Models/coordinator_user.dart';
+import 'package:jordan_insider/Models/event.dart';
 import 'package:jordan_insider/Models/review.dart';
 import 'package:jordan_insider/Models/review_user_dto.dart';
 import 'package:jordan_insider/Models/ticket.dart';
@@ -110,12 +113,41 @@ class ShowAttractionCubit extends Cubit<ShowAttractionStates> {
     });
   }
 
-  void buyTicket({required int eventID, required int userID}) {
+  void buyTicket({required int userID, required SiteEvent event}) {
     emit(BuyTicketLoadingState());
     DioHelper.postData(
         url: CreateTicket,
-        data: {'eventid': eventID, 'userid': userID}).then((value) {
+        data: {'eventid': event.getID(), 'userid': userID}).then((value) async {
       getUserTicketByEventID();
+      await DioHelper.getData(
+          url: GetUserById + event.getCoordinatorid().toString(),
+          query: {}).then((value) {
+        Coordinator coor = Coordinator.fromJS(value.data);
+
+        String emailMsg =
+            "Dear ${UserDataCubit.getInstans().userData!.getFullName()},<br>";
+        emailMsg +=
+            "Thank you for purchasing a ticket from Jordan Insider! ❤<br><br>";
+        emailMsg +=
+            "To confirm your ticket and complete the process, please follow the steps below:<br><br>";
+        emailMsg += "1.Contact the Coordinator:<br>";
+        emailMsg += "a) Email: ${coor.getEmail()}<br>";
+        emailMsg += "b) Phone #: ${coor.getPhoneNum()}<br><br>";
+        emailMsg += "2.Make the payment to the Coordinator. <br><br>";
+        emailMsg += "3.Congratulations! You now have your ticket.<br><br>";
+        emailMsg +=
+            "If you have any questions or need further assistance, feel free to reach out to us.<br><br>";
+        emailMsg += "Best regards,<br>";
+        emailMsg += "Jordan Insider Team.";
+
+        sendEmail(
+          email: UserDataCubit.getInstans().userData!.getEmail(),
+          subject:
+              "Confirmation and Next Steps for Your Jordan Insider Ticket Purchase 🎫",
+          msg: emailMsg,
+        );
+      });
+
       emit(BuyTicketSuccessState());
     }).catchError((error) {
       emit(BuyTicketErrorState());

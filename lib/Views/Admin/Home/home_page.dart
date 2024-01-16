@@ -185,9 +185,6 @@ class AdminHomePage extends StatelessWidget {
                                       PopupMenuItem(
                                         child: Text("Delete"),
                                         onTap: () {
-                                          Navigator.pop(context);
-                                          _showConfirmationDialog(context,
-                                              cubit.allSites[index], cubit);
                                           _showConfirmationDialog(context,
                                               cubit.allSites[index], cubit);
                                         },
@@ -198,9 +195,6 @@ class AdminHomePage extends StatelessWidget {
                                           ShowAttractionCubit.getInstans()
                                               .setAttraction(
                                                   cubit.allSites[index]);
-                                          Navigator.pop(context);
-                                          Navigator.pushNamed(
-                                              context, AttractionScreen.route);
                                           Navigator.pushNamed(
                                               context, AttractionScreen.route);
                                         },
@@ -329,9 +323,6 @@ class AdminHomePage extends StatelessWidget {
                                   PopupMenuItem(
                                     child: Text("Delete"),
                                     onTap: () {
-                                      Navigator.pop(context);
-                                      _showConfirmationDialog(
-                                          context, cubit.events[index], cubit);
                                       _showConfirmationDialog(
                                           context, cubit.events[index], cubit);
                                     },
@@ -341,9 +332,7 @@ class AdminHomePage extends StatelessWidget {
                                     onTap: () {
                                       ShowAttractionCubit.getInstans()
                                           .setAttraction(cubit.events[index]);
-                                      Navigator.pop(context);
-                                      Navigator.pushNamed(
-                                          context, AttractionScreen.route);
+
                                       Navigator.pushNamed(
                                           context, AttractionScreen.route);
                                     },

@@ -13,16 +13,17 @@ import 'package:jordan_insider/Views/Tourist_Views/Home%20Page/homepage.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../../../Shared/Constants.dart';
 
+var formKey = GlobalKey<FormState>();
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
   static String route = "LoginPage";
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
     RegExp emailReg = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    var formKey = GlobalKey<FormState>();
 
     return MultiBlocProvider(
       providers: [
@@ -63,7 +64,7 @@ class LoginPage extends StatelessWidget {
         builder: (context, state) {
           LoginCubit cubit = LoginCubit.getInstans();
           return Scaffold(
-            resizeToAvoidBottomInset: false,
+            // resizeToAvoidBottomInset: false,
             appBar: myAppBar(),
             body: Container(
               color: Colors.blue[200],
@@ -71,137 +72,138 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(
+                  /*Image*/ Expanded(
                     flex: 1,
                     child: Stack(
+                      alignment: Alignment.bottomCenter,
                       children: [
                         const Image(
                           image: AssetImage("assets/images/sky.png"),
                           width: double.infinity,
                           fit: BoxFit.cover,
                         ),
-                        Container(
-                          width: ScreenWidth(context) / 3,
-                          alignment: Alignment.bottomLeft,
-                          child: Image(
-                            image: AssetImage("assets/images/person.png"),
-                            width: 90.h,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Image(
+                              image: AssetImage("assets/images/person.png"),
+                              width: 90.h,
+                            ),
+                            Image(
+                              image: AssetImage("assets/images/jarash.png"),
+                              width: 150.h,
+                            ),
+                          ],
                         ),
-                        Container(
-                          width: double.infinity,
-                          alignment: Alignment.bottomRight,
-                          // color: Colors.amber,
-                          child: Image(
-                            image: AssetImage("assets/images/jarash.png"),
-                            width: 210.w,
-                          ),
-                        )
                       ],
                     ),
                   ),
                   Expanded(
                     flex: 3,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.dg),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                      ),
-                      width: double.infinity,
-                      height: ScreenHeight(context) * 2 / 3,
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            DefaultFormField(
-                              inputType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
-                              labelColor: Colors.grey,
-                              label: "Email",
-                              controller: emailController,
-                              validate: (val) {
-                                if (val == null) {
-                                  return "Email can't be empty";
-                                } else if (!emailReg.hasMatch(val)) {
-                                  return "Please Enter valid email";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: ScreenHeight(context) / 40),
-                            DefaultFormField(
-                              maxLines: 1,
-                              textInputAction: TextInputAction.done,
-                              suffixIcon: IconButton(
-                                icon: Icon(cubit.eye),
-                                onPressed: () {
-                                  cubit.changePasswordVisibility();
-                                },
-                              ),
-                              isObscureText: !cubit.isPassShown,
-                              label: "Password",
-                              labelColor: Colors.grey,
-                              controller: passwordController,
-                              validate: (val) {
-                                if (val == null) {
-                                  return "Password can't be empty";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: ScreenHeight(context) / 40),
-                            /*Login*/ ConditionalBuilder(
-                              condition: state is! LoginLoadingState,
-                              builder: (context) => DefaultButton(
-                                text: "Login",
-                                onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    cubit.userLogin(
-                                        email: emailController.text,
-                                        pass: passwordController.text);
+                    child: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20.dg),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                        ),
+                        width: double.infinity,
+                        height: ScreenHeight(context) * 2 / 3,
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DefaultFormField(
+                                inputType: TextInputType.emailAddress,
+                                // textInputAction: TextInputAction.next,
+                                labelColor: Colors.grey,
+                                label: "Email",
+                                controller: emailController,
+                                validate: (val) {
+                                  if (val == null) {
+                                    return "Email can't be empty";
+                                  } else if (!emailReg.hasMatch(val)) {
+                                    return "Please Enter valid email";
                                   }
+                                  return null;
                                 },
                               ),
-                              fallback: (context) =>
-                                  CircularProgressIndicator(),
-                            ),
-                            SizedBox(height: ScreenHeight(context) / 40),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Forgot password?"),
-                                TextButton(
-                                  onPressed: () async {
+                              SizedBox(height: ScreenHeight(context) / 40),
+                              DefaultFormField(
+                                maxLines: 1,
+                                textInputAction: TextInputAction.done,
+                                suffixIcon: IconButton(
+                                  icon: Icon(cubit.eye),
+                                  onPressed: () {
+                                    cubit.changePasswordVisibility();
+                                  },
+                                ),
+                                isObscureText: !cubit.isPassShown,
+                                label: "Password",
+                                labelColor: Colors.grey,
+                                controller: passwordController,
+                                validate: (val) {
+                                  if (val == null) {
+                                    return "Password can't be empty";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: ScreenHeight(context) / 40),
+                              /*Login*/ ConditionalBuilder(
+                                condition: state is! LoginLoadingState,
+                                builder: (context) => DefaultButton(
+                                  text: "Login",
+                                  onPressed: () {
                                     if (formKey.currentState!.validate()) {
-                                      sendEmail(
+                                      cubit.userLogin(
                                           email: emailController.text,
-                                          msg: "Your Password is : pass123",
-                                          subject: "Forgot you password?");
-                                      MotionToast.success(
-                                          description: Text(
-                                              "Password sent to your Email"));
+                                          pass: passwordController.text);
                                     }
                                   },
-                                  child: Text("Send Password"),
                                 ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Don't have an account ?"),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, SignUp.route);
-                                  },
-                                  child: Text("Sign Up"),
-                                ),
-                              ],
-                            ),
-                          ],
+                                fallback: (context) =>
+                                    CircularProgressIndicator(),
+                              ),
+                              SizedBox(height: ScreenHeight(context) / 40),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Forgot password?"),
+                                  TextButton(
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        sendEmail(
+                                            email: emailController.text,
+                                            msg: "Your Password is : pass123",
+                                            subject: "Forgot you password?");
+                                        MotionToast.success(
+                                            description: Text(
+                                                "Password sent to your Email"));
+                                      }
+                                    },
+                                    child: Text("Send Password"),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Don't have an account ?"),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, SignUp.route);
+                                    },
+                                    child: Text("Sign Up"),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
