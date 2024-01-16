@@ -83,7 +83,7 @@ class IntentUtils {
     Set<Restaurant> restaurants = {};
     double latitude = 32.5343515;
     double longitude = 35.905892;
-    radius ??= 1500;
+    radius ??= 1000;
     type ??= "restaurant";
     try {
       if (await Permission.location.isGranted) {
@@ -94,7 +94,7 @@ class IntentUtils {
         try {
           final url = Uri.parse(
               'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-              'key=AIzaSyC1NJOxbfFQEPPxfeJ8opJjl2083AwCQds&location=$latitude,$longitude&radius=$radius&type=$type');
+              'key=$_apiKey&location=$latitude,$longitude&radius=$radius&type=$type');
 
           final response = await http.get(url);
 

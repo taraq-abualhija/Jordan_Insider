@@ -197,9 +197,13 @@ class SearchScreen extends StatelessWidget {
         height: 125.h,
         width: 125.w,
         decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/restaurant.jpg"),
-              fit: BoxFit.fill),
+          image: restaurant.getNetworkImage() == ""
+              ? DecorationImage(
+                  image: AssetImage("assets/images/restaurant.jpg"),
+                  fit: BoxFit.fill)
+              : DecorationImage(
+                  image: NetworkImage(restaurant.getNetworkImage()),
+                  fit: BoxFit.fill),
           borderRadius: BorderRadius.circular(15),
           border: Border.all(),
         ),

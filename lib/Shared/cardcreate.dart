@@ -192,10 +192,20 @@ class CreateRestCard extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(15.0),
                                         ),
-                                        child: Image.asset(
-                                          "assets/images/restaurant.jpg",
-                                          fit: BoxFit.fill,
-                                        ),
+                                        child: cubit.nearByRestaurants
+                                                    .elementAt(index)
+                                                    .getNetworkImage() ==
+                                                ""
+                                            ? Image.asset(
+                                                "assets/images/restaurant.jpg",
+                                                fit: BoxFit.fill,
+                                              )
+                                            : Image.network(
+                                                cubit.nearByRestaurants
+                                                    .elementAt(index)
+                                                    .getNetworkImage(),
+                                                fit: BoxFit.fill,
+                                              ),
                                       ),
                                       Container(
                                         padding: EdgeInsets.all(7.5.dg),

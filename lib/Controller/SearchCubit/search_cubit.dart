@@ -30,7 +30,7 @@ class SearchCubit extends Cubit<SearchStates> {
 
   void getRestaurants() {
     emit(SearchLoadingStates());
-    IntentUtils.getNearbyPlaces(radius: 3000).then((value) {
+    IntentUtils.getNearbyPlaces(radius: 3500).then((value) {
       _attractions.clear();
       restaurant.clear();
       restaurant.addAll(value);

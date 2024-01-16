@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:jordan_insider/Shared/Constants.dart';
 
 class Restaurant {
@@ -20,6 +22,14 @@ class Restaurant {
       _usersRate = int.parse(json['user_ratings_total'].toString() != "null"
           ? json['user_ratings_total'].toString()
           : "0");
+
+      if (json['photos'] != null) {
+        List photos = json['photos'];
+
+        int randomIndex = Random().nextInt(photos.length);
+        _networkImage =
+            "https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyC1NJOxbfFQEPPxfeJ8opJjl2083AwCQds&photoreference=${json['photos'][randomIndex]['photo_reference']}&maxwidth=400";
+      }
     } catch (e) {
       // ignore: avoid_print
       print(_name);
