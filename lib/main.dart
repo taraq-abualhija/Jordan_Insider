@@ -64,8 +64,15 @@ class MyApp extends StatelessWidget {
             splitScreenMode: true,
             child: MaterialApp(
               theme: ThemeData(
-                  appBarTheme:
-                      AppBarTheme(color: mainColor, centerTitle: true)),
+                appBarTheme: AppBarTheme(
+                  color: mainColor,
+                  centerTitle: true,
+                  actionsIconTheme: IconThemeData(color: Colors.white),
+                  iconTheme: IconThemeData(color: Colors.white),
+                  titleTextStyle: TextStyle(
+                      color: Colors.white, fontSize: ScreenWidth(context) / 15),
+                ),
+              ),
               debugShowCheckedModeBanner: false,
               initialRoute: goTo,
               routes: getRouts(),

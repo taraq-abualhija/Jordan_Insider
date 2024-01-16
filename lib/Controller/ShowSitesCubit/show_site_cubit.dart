@@ -25,6 +25,7 @@ class ShowSiteCubit extends Cubit<ShowSiteStates> {
 
   SortRestaurantBy dropdownValue = SortRestaurantBy.distance;
   void changeDropdownValue(String? val) {
+    emit(ShowSiteInitialStates());
     switch (val) {
       case "name":
         dropdownValue = SortRestaurantBy.name;

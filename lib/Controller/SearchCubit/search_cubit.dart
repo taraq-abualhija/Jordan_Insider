@@ -51,8 +51,10 @@ class SearchCubit extends Cubit<SearchStates> {
     DioHelper.updateData(url: SearchTouristSiteByName + name, data: {})
         .then((value) async {
       for (var element in value.data) {
-        _attractions.add(Site.fromJSON(element));
-        await Future.delayed(Duration(milliseconds: 500));
+        if (element['status'] == "Accepted") {
+          _attractions.add(Site.fromJSON(element));
+          await Future.delayed(Duration(milliseconds: 500));
+        }
       }
       emit(SearchSuccessStates());
     }).catchError((error) {

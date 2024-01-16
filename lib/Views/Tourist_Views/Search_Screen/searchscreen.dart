@@ -13,6 +13,7 @@ import 'package:jordan_insider/Models/attraction.dart';
 import 'package:jordan_insider/Models/restaurant.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Tourist_Views/Attraction%20Screen/attractionscreen.dart';
+import 'package:jordan_insider/utils/intent_utils/intent_utils.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -185,7 +186,10 @@ class SearchScreen extends StatelessWidget {
   Widget searchRestaurantItem(context, {required Restaurant restaurant}) {
     return InkWell(
       onTap: () {
-        //Navigat to Map
+        IntentUtils.launchGoogleMaps(
+          lat: restaurant.getLocLat(),
+          long: restaurant.getLocLng(),
+        );
       },
       child: Container(
         alignment: Alignment.topCenter,

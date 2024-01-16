@@ -170,6 +170,7 @@ class CreateRestCard extends StatelessWidget {
                             controller: _pageController,
                             itemCount: cubit.nearByRestaurants.length,
                             itemBuilder: (context, index) {
+                              sortSet();
                               return Container(
                                 margin: EdgeInsets.symmetric(horizontal: 5.dg),
                                 child: InkWell(
@@ -319,10 +320,9 @@ class CreateRestCard extends StatelessWidget {
     );
   }
 
-  Set<Restaurant> sortSet() {
+  void sortSet() {
     List<Restaurant> list =
         RestaurantCubit.getInstans().nearByRestaurants.toList();
-
     switch (sortBy) {
       case SortRestaurantBy.name:
         list.sort((a2, a1) => a2.getName().compareTo(a1.getName()));
@@ -334,12 +334,7 @@ class CreateRestCard extends StatelessWidget {
       case SortRestaurantBy.distance:
       default:
     }
-    for (var element in list) {
-      if (element.getRate() < 2) {
-        RestaurantCubit.getInstans().nearByRestaurants.remove(element);
-      }
-    }
-
-    return list.toSet();
+    RestaurantCubit.getInstans().nearByRestaurants.clear();
+    RestaurantCubit.getInstans().nearByRestaurants.addAll(list.toSet());
   }
 }

@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path/path.dart';
 
@@ -41,46 +43,75 @@ class Help extends StatelessWidget {
             style: TextStyle(fontSize: 20.sp),
           ),
           DefaultButton(
+            width: ScreenWidth(context) / 2,
             text: "Download App manual",
-            onPressed: () async {
-              if (!FlutterDownloader.initialized) {
-                WidgetsFlutterBinding.ensureInitialized();
-                await FlutterDownloader.initialize(debug: true);
-              }
-
-              const downloadDir = "/storage/emulated/0/Download";
-
-              final filePath = join(downloadDir, 'help.docx');
-
-              ByteData data = await rootBundle.load('assets/help.docx');
-              List<int> bytes = data.buffer.asUint8List();
-
-              File file = File(filePath);
-              await file.writeAsBytes(bytes);
-
-              try {
-                await FlutterDownloader.enqueue(
-                  url: 'file://$filePath',
-                  savedDir: downloadDir,
-                  showNotification: true,
-                  openFileFromNotification: true,
-                ).then((value) {
-                  MotionToast.success(
-                    description: Text(
-                        "Seccess Download App Manual.\nYou can find the file in download Folder."),
-                    position: MotionToastPosition.center,
-                  ).show(context);
-                }).catchError((error) {
-                  logger.e(error);
-                });
-              } catch (e) {
-                logger.e("Error : $e");
-              }
+            onPressed: () {
+              _downloadHelp(context);
             },
           )
         ],
       ),
     );
+  }
+
+  Future<void> _downloadHelp(context) async {
+    if (await Permission.storage.status.isGranted) {
+      if (!FlutterDownloader.initialized) {
+        WidgetsFlutterBinding.ensureInitialized();
+        await FlutterDownloader.initialize(debug: true);
+      }
+
+      String? downloadDir = await _chooseSaveLocation();
+
+      if (downloadDir != null) {
+        final filePath = join(downloadDir, 'help.docx');
+
+        ByteData data = await rootBundle.load('assets/help.docx');
+        List<int> bytes = data.buffer.asUint8List();
+
+        File file = File(filePath);
+        await file.writeAsBytes(bytes);
+
+        try {
+          await FlutterDownloader.enqueue(
+            url: 'file://$filePath',
+            savedDir: downloadDir,
+            showNotification: true,
+            openFileFromNotification: true,
+          ).then((value) {
+            MotionToast.success(
+              description: Text("Seccess Download App Manual."),
+              position: MotionToastPosition.center,
+            ).show(context);
+          }).catchError((error) {
+            logger.e(error);
+          });
+        } catch (e) {
+          logger.e("Error : $e");
+        }
+      }
+    } else {
+      await Permission.storage.request();
+      print(await Permission.storage.status.isGranted);
+      // _downloadHelp(context);
+    }
+  }
+
+  Future<String?> _chooseSaveLocation() async {
+    try {
+      var result = await FilePicker.platform.getDirectoryPath();
+
+      if (result != null) {
+        // Return the selected directory
+        return result;
+      } else {
+        // User canceled the directory picking
+
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 
   void _launchEmail(context) async {
