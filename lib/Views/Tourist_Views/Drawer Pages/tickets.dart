@@ -8,11 +8,11 @@ import 'package:jordan_insider/Controller/TicketCubit/ticket_state.dart';
 import 'package:jordan_insider/Models/ticket.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 
-bool getTicketFirstTime = true;
-
+// ignore: must_be_immutable
 class Tickets extends StatelessWidget {
-  const Tickets({super.key});
+  Tickets({super.key});
   static String route = "Tickets";
+  bool getTicketFirstTime = true;
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(

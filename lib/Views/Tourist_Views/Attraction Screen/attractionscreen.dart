@@ -454,7 +454,9 @@ class AttractionScreen extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(15.dg),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MediaQuery.of(context).viewInsets.bottom > 0
+                ? MainAxisSize.max
+                : MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
