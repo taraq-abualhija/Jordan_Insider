@@ -122,7 +122,12 @@ class SignUp extends StatelessWidget {
                                 maxLines: 1,
                                 textInputAction: TextInputAction.next,
                                 suffixIcon: IconButton(
-                                  icon: Icon(cubit.eye),
+                                  icon: Icon(
+                                    cubit.eye,
+                                    color: UserDataCubit.getInstans().isDark
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
                                   onPressed: () {
                                     cubit.changePasswordVisibility();
                                   },

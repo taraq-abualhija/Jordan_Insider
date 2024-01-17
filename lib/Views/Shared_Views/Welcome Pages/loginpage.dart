@@ -138,7 +138,12 @@ class LoginPage extends StatelessWidget {
                                 maxLines: 1,
                                 textInputAction: TextInputAction.done,
                                 suffixIcon: IconButton(
-                                  icon: Icon(cubit.eye),
+                                  icon: Icon(
+                                    cubit.eye,
+                                    color: UserDataCubit.getInstans().isDark
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
                                   onPressed: () {
                                     cubit.changePasswordVisibility();
                                   },
