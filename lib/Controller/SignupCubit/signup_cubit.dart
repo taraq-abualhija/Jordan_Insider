@@ -14,11 +14,12 @@ class SignUpCubit extends Cubit<SignUpStates> {
     return _cubit!;
   }
 
-  void signUpUser({required String email, required String pass}) {
+  void signUpUser(
+      {required String email, required String pass, required String name}) {
     emit(SignUpLoadingState());
     DioHelper.postData(
       url: CreateUser,
-      data: {"password": pass, "email": email},
+      data: {"password": pass, "email": email, 'name': name},
     ).then((value) {
       emit(SignUpSuccessState());
     }).catchError((error) {

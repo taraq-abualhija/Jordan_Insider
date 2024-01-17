@@ -32,7 +32,7 @@ const UpdateReview = "Review/UpdateReview";
 const DeleteReview = "Review/DeleteReview/";
 //-Email
 const EmailURL = "Email/";
-//-Favoritef
+//-Favoritet
 const GetFavoritesByUserId = "Favorite/GetFavoritesByUserId/";
 const CreateFavorite = "Favorite/CreateFavorite";
 const DeleteFavoriteByUserAndTouristSite =

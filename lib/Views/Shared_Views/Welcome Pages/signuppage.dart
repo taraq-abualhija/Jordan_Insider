@@ -9,14 +9,17 @@ import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/loginpage.dart
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:motion_toast/motion_toast.dart';
 
+var formKey = GlobalKey<FormState>();
 var emailController = TextEditingController();
 var passwordController = TextEditingController();
 var confirmPassController = TextEditingController();
-var formKey = GlobalKey<FormState>();
+var nameController = TextEditingController();
 
+// ignore: must_be_immutable
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
   static String route = "SignUp";
+
   @override
   Widget build(BuildContext context) {
     RegExp emailReg = RegExp(
@@ -104,6 +107,16 @@ class SignUp extends StatelessWidget {
                             children: [
                               SizedBox(height: ScreenHeight(context) / 60),
                               DefaultFormField(
+                                inputType: TextInputType.name,
+                                textInputAction: TextInputAction.next,
+                                hintText: "Name",
+                                controller: nameController,
+                                validate: (val) {
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: ScreenHeight(context) / 60),
+                              DefaultFormField(
                                 inputType: TextInputType.emailAddress,
                                 textInputAction: TextInputAction.next,
                                 hintText: "Email",
@@ -171,8 +184,10 @@ class SignUp extends StatelessWidget {
                                   onPressed: () {
                                     if (formKey.currentState!.validate()) {
                                       cubit.signUpUser(
-                                          email: emailController.text,
-                                          pass: passwordController.text);
+                                        email: emailController.text,
+                                        pass: passwordController.text,
+                                        name: nameController.text,
+                                      );
                                     }
                                   },
                                 ),

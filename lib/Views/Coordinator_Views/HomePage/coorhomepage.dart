@@ -152,7 +152,7 @@ class CoorHomePage extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     "Events ->",
-                    style: TextStyle(fontSize: 15.sp, color: Colors.black45),
+                    style: TextStyle(fontSize: 15.sp, color: Colors.grey[700]),
                   ),
                 ),
               ),
@@ -340,7 +340,7 @@ class CoorHomePage extends StatelessWidget {
               Expanded(
                 child: Text(
                   "<- Sites",
-                  style: TextStyle(fontSize: 15.sp, color: Colors.black45),
+                  style: TextStyle(fontSize: 15.sp, color: Colors.grey[700]),
                 ),
               ),
               Expanded(

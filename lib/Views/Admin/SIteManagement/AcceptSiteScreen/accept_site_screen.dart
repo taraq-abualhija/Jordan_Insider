@@ -125,7 +125,8 @@ class AcceptSiteScreen extends StatelessWidget {
                             /*Location*/ Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.location_on, color: Colors.red),
+                                Icon(Icons.location_on,
+                                    color: Color.fromARGB(255, 172, 30, 20)),
                                 TextButton(
                                   onPressed: () async {
                                     IntentUtils.getLocationByName(
@@ -148,7 +149,7 @@ class AcceptSiteScreen extends StatelessWidget {
                                           ? 20.sp
                                           : 10.sp,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                                      color: Color.fromARGB(255, 172, 30, 20),
                                     ),
                                   ),
                                 ),

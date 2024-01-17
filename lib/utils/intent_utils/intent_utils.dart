@@ -31,11 +31,6 @@ class IntentUtils {
     } catch (e) {
       logger.e(e);
     }
-    // if (await canLaunchUrl(uri)) {
-    //   await launchUrl(uri);
-    // } else {
-    //   logger.e('An error occurred');
-    // }
   }
 
   static Future<void> getLocationByName(String placeName,

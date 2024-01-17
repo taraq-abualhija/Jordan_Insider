@@ -139,7 +139,8 @@ class AttractionScreen extends StatelessWidget {
                           /*Location*/ Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.location_on, color: Colors.red),
+                              Icon(Icons.location_on,
+                                  color: Color.fromARGB(255, 172, 30, 20)),
                               TextButton(
                                 onPressed: () async {
                                   IntentUtils.getLocationByName(
@@ -158,7 +159,7 @@ class AttractionScreen extends StatelessWidget {
                                         ? 20.sp
                                         : 10.sp,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                    color: Color.fromARGB(255, 172, 30, 20),
                                   ),
                                 ),
                               ),
@@ -287,7 +288,10 @@ class AttractionScreen extends StatelessWidget {
                               margin: EdgeInsets.only(left: 15.dg),
                               child: TextButton(
                                   onPressed: () {
-                                    if (userCubit.userData is Tourist) {
+                                    if (userCubit.userData is Tourist &&
+                                        userCubit.userData!
+                                            .getEmail()
+                                            .isNotEmpty) {
                                       addReviewDialog(
                                         cubit: cubit,
                                         userCubit: userCubit,
@@ -308,7 +312,8 @@ class AttractionScreen extends StatelessWidget {
                       ),
                       /*#Buy Ticket*/ ConditionalBuilder(
                         condition: cubit.getAttraction() is SiteEvent &&
-                            userCubit.userData is Tourist,
+                            userCubit.userData is Tourist &&
+                            userCubit.userData!.getEmail().isNotEmpty,
                         builder: (context) {
                           return Container(
                             margin: EdgeInsets.all(15.dg),
@@ -400,7 +405,6 @@ class AttractionScreen extends StatelessWidget {
                     children: [
                       Text(
                         review.getReviewerName(),
-                        style: TextStyle(color: Colors.black),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

@@ -9,13 +9,14 @@ import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_st
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Models/review.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
+import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/welcomepage.dart';
 import 'package:simple_star_rating/simple_star_rating.dart';
 
-bool firstTime = true;
-
+// ignore: must_be_immutable
 class UserReviews extends StatelessWidget {
-  const UserReviews({super.key});
+  UserReviews({super.key});
   static String route = "UserReviews";
+  bool firstTime = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +42,44 @@ class UserReviews extends StatelessWidget {
                   ),
                 ),
                 body: ConditionalBuilder(
-                  condition: state is! ReviewLoadingState,
-                  builder: (context) {
-                    return ListView.builder(
-                      itemCount: reviewCubit.reviews.length,
-                      itemBuilder: (context, index) {
-                        return Center(
-                            child: formatReview(reviewCubit.reviews[index]));
-                      },
-                    );
-                  },
-                  fallback: (context) =>
-                      Center(child: CircularProgressIndicator()),
+                  condition: UserDataCubit.getInstans()
+                      .userData!
+                      .getEmail()
+                      .isNotEmpty,
+                  builder: (context) => ConditionalBuilder(
+                    condition: state is! ReviewLoadingState,
+                    builder: (context) {
+                      return ListView.builder(
+                        itemCount: reviewCubit.reviews.length,
+                        itemBuilder: (context, index) {
+                          return Center(
+                              child: formatReview(reviewCubit.reviews[index]));
+                        },
+                      );
+                    },
+                    fallback: (context) =>
+                        Center(child: CircularProgressIndicator()),
+                  ),
+                  fallback: (context) => Center(
+                      child: Container(
+                    margin: EdgeInsets.all(20.dg),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Login to see your Reviews",
+                          style: TextStyle(fontSize: 20.sp),
+                        ),
+                        DefaultButton(
+                          text: "Go to Login ->",
+                          onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, WelcomePage.route, (route) => false);
+                          },
+                        )
+                      ],
+                    ),
+                  )),
                 ));
           }),
     );

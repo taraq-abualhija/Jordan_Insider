@@ -6,14 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/NotiCubit/noti_cubit.dart';
 import 'package:jordan_insider/Controller/NotiCubit/noti_state.dart';
+import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Models/notification.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
+import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/welcomepage.dart';
 
-bool getNotiFirstTime = true;
-
+// ignore: must_be_immutable
 class AppNotification extends StatelessWidget {
-  const AppNotification({super.key});
+  AppNotification({super.key});
   static String route = "AppNotification";
+  bool getNotiFirstTime = true;
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -27,19 +29,46 @@ class AppNotification extends StatelessWidget {
               getNotiFirstTime = false;
             }
             return Scaffold(
-                appBar: myAppBar(title: Text("Notification")),
-                body: ConditionalBuilder(
-                  condition: state is! GetNotificationLoadingState,
-                  builder: (context) {
-                    return ListView.builder(
-                      itemCount: cubit.userNoti.length,
-                      itemBuilder: (context, index) =>
-                          notiCard(cubit.userNoti[index]),
-                    );
-                  },
-                  fallback: (context) =>
-                      Center(child: CircularProgressIndicator()),
-                ));
+              appBar: myAppBar(title: Text("Notification")),
+              body: ConditionalBuilder(
+                condition:
+                    UserDataCubit.getInstans().userData!.getEmail().isNotEmpty,
+                builder: (context) {
+                  return ConditionalBuilder(
+                    condition: state is! GetNotificationLoadingState,
+                    builder: (context) {
+                      return ListView.builder(
+                        itemCount: cubit.userNoti.length,
+                        itemBuilder: (context, index) =>
+                            notiCard(cubit.userNoti[index]),
+                      );
+                    },
+                    fallback: (context) =>
+                        Center(child: CircularProgressIndicator()),
+                  );
+                },
+                fallback: (context) => Center(
+                    child: Container(
+                  margin: EdgeInsets.all(20.dg),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Login to see your Notification",
+                        style: TextStyle(fontSize: 20.sp),
+                      ),
+                      DefaultButton(
+                        text: "Go to Login ->",
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, WelcomePage.route, (route) => false);
+                        },
+                      )
+                    ],
+                  ),
+                )),
+              ),
+            );
           }),
     );
   }

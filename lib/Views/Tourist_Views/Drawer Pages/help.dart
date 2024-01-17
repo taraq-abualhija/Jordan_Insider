@@ -63,9 +63,8 @@ class Help extends StatelessWidget {
 
     if (downloadDir != null) {
       final filePath = join(downloadDir, 'help.docx');
-
       ByteData data = await rootBundle.load('assets/help.docx');
-      List<int> bytes = data.buffer.asUint8List();
+      Uint8List bytes = data.buffer.asUint8List();
 
       File file = File(filePath);
       await file.writeAsBytes(bytes);
