@@ -8,6 +8,7 @@ import 'package:jordan_insider/Controller/SearchCubit/search_cubit.dart';
 import 'package:jordan_insider/Controller/SearchCubit/search_state.dart';
 import 'package:jordan_insider/Controller/ShowAttractionCubit/show_attraction_cubit.dart';
 import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_cubit.dart';
+import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Controller/showEventCubit/show_event_cubit.dart';
 import 'package:jordan_insider/Models/attraction.dart';
 import 'package:jordan_insider/Models/restaurant.dart';
@@ -74,8 +75,13 @@ class SearchScreen extends StatelessWidget {
                                   ShowEventCubit.getInstans().events);
                             },
                             child: searchCat(
-                              image: "assets/images/events.png",
+                              assetImage: Image.asset(
+                                !!UserDataCubit.getInstans().isDark
+                                    ? "assets/images/eventswhite.png"
+                                    : "assets/images/events.png",
+                              ),
                               name: "Events",
+                              image: '',
                             ),
                           ),
                         ),

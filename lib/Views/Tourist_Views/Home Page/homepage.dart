@@ -53,6 +53,7 @@ class TouristHomePage extends StatelessWidget {
           }
 
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             key: _scaffoldKey,
             drawer: DefaultDrawer(),
             appBar: myAppBar(
