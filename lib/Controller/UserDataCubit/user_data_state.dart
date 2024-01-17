@@ -41,3 +41,7 @@ class UserDataAddReviewErrorState extends UserDataStates {
 }
 
 class UserDataUpdateSuccessState extends UserDataStates {}
+
+class ChangeThemeLoadingState extends UserDataStates {}
+
+class ChangeThemeSuccessState extends UserDataStates {}

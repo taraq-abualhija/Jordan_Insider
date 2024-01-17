@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/AcceptSiteCubit/accept_site_cubit.dart';
 import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_cubit.dart';
 import 'package:jordan_insider/Controller/ShowSitesCubit/show_site_state.dart';
+import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Models/site.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Views/Admin/SIteManagement/AcceptSiteScreen/accept_site_screen.dart';
@@ -73,7 +74,10 @@ class AcceptNewSite extends StatelessWidget {
           EdgeInsets.only(top: 10.dg, bottom: 10.dg, left: 10.dg, right: 5.dg),
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(),
+        border: Border.all(
+          color:
+              UserDataCubit.getInstans().isDark ? Colors.white : Colors.black,
+        ),
       ),
       child: Row(
         children: [

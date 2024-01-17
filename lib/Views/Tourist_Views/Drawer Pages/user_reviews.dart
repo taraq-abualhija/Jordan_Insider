@@ -61,7 +61,7 @@ class UserReviews extends StatelessWidget {
   Widget formatReview(Review review) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ShowAttractionCubit()),
+        BlocProvider.value(value: ShowAttractionCubit.getInstans()),
       ],
       child: BlocConsumer<ShowAttractionCubit, ShowAttractionStates>(
           listener: (context, state) {},
@@ -73,7 +73,9 @@ class UserReviews extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.all(15.dg),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: UserDataCubit.getInstans().isDark
+                      ? Colors.black
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
@@ -83,7 +85,11 @@ class UserReviews extends StatelessWidget {
                       spreadRadius: 0,
                     ),
                   ],
-                  border: Border.all(),
+                  border: Border.all(
+                    color: !UserDataCubit.getInstans().isDark
+                        ? Colors.black
+                        : Colors.white,
+                  ),
                 ),
                 width: double.infinity,
                 height: 100.h,
@@ -164,7 +170,14 @@ class UserReviews extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text('Cancel'),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: UserDataCubit.getInstans().isDark
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
                     ),
                   ],
                 );

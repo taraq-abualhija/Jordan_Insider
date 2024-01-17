@@ -32,7 +32,12 @@ class Profile extends StatelessWidget {
                     },
                     icon: const Icon(
                       Icons.edit,
-                    ))
+                    )),
+                IconButton(
+                    onPressed: () {
+                      cubit.changeTheme();
+                    },
+                    icon: Icon(cubit.themeIcon))
               ],
               elevation: 0,
             ),

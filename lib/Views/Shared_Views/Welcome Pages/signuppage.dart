@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Controller/SignupCubit/signup_cubit.dart';
 import 'package:jordan_insider/Controller/SignupCubit/signup_state.dart';
+import 'package:jordan_insider/Controller/UserDataCubit/user_data_cubit.dart';
 import 'package:jordan_insider/Views/Shared_Views/Welcome%20Pages/loginpage.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -90,7 +91,9 @@ class SignUp extends StatelessWidget {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20)),
-                          color: Colors.white,
+                          color: UserDataCubit.getInstans().isDark
+                              ? Colors.black
+                              : Colors.white,
                         ),
                         width: double.infinity,
                         height: ScreenHeight(context) * 2 / 3,

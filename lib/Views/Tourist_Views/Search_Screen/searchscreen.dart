@@ -36,11 +36,13 @@ class SearchScreen extends StatelessWidget {
             var searchCubit = SearchCubit.getInstans();
             return Scaffold(
               appBar: AppBarWithSearchSwitch(
+                keepAppBarColors: false,
                 onChanged: (text) {
+                  // searchCubit.searchSites(text);
+                },
+                onSubmitted: (text) {
                   searchCubit.searchSites(text);
                 },
-                onSubmitted: (text) {},
-                onCleared: () {},
                 appBarBuilder: (context) {
                   return myAppBar(actions: [
                     AppBarSearchButton(),
@@ -92,29 +94,38 @@ class SearchScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10.dg),
                     ConditionalBuilder(
-                      condition: state is SearchSuccessStates,
+                      condition: searchCubit.getAttractions().isNotEmpty ||
+                          searchCubit.restaurant.isNotEmpty,
                       builder: (context) {
-                        return Expanded(
-                          child: GridView.extent(
-                            maxCrossAxisExtent:
-                                MediaQuery.of(context).size.width / 2,
-                            mainAxisSpacing: 10.dg,
-                            children: searchCubit.getAttractions().isNotEmpty
-                                ? searchCubit.getAttractions().map((item) {
-                                    return searchItem(context,
-                                        attraction: item, cubit: attCubit);
-                                  }).toList()
-                                : searchCubit.restaurant.isNotEmpty
-                                    ? searchCubit.restaurant.map((item) {
-                                        return searchRestaurantItem(context,
-                                            restaurant: item);
+                        return ConditionalBuilder(
+                          condition: state is SearchSuccessStates,
+                          builder: (context) {
+                            return Expanded(
+                              child: GridView.extent(
+                                maxCrossAxisExtent:
+                                    MediaQuery.of(context).size.width / 2,
+                                mainAxisSpacing: 10.dg,
+                                children: searchCubit
+                                        .getAttractions()
+                                        .isNotEmpty
+                                    ? searchCubit.getAttractions().map((item) {
+                                        return searchItem(context,
+                                            attraction: item, cubit: attCubit);
                                       }).toList()
-                                    : [],
-                          ),
+                                    : searchCubit.restaurant.isNotEmpty
+                                        ? searchCubit.restaurant.map((item) {
+                                            return searchRestaurantItem(context,
+                                                restaurant: item);
+                                          }).toList()
+                                        : [],
+                              ),
+                            );
+                          },
+                          fallback: (context) =>
+                              Center(child: CircularProgressIndicator()),
                         );
                       },
-                      fallback: (context) =>
-                          Center(child: CircularProgressIndicator()),
+                      fallback: null,
                     ),
                   ],
                 ),

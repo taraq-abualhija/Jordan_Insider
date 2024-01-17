@@ -73,103 +73,94 @@ class TouristHomePage extends StatelessWidget {
             body: Column(
               children: [
                 Expanded(
-                  child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
-                    child: Container(
-                      margin: EdgeInsets.all(10.dg),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 30,
-                              ),
-                              Text(
-                                "Best places",
-                                style: TextStyle(fontSize: 18.sp),
-                              ),
-                            ],
-                          ),
-                          CreateCard(items: bestPlaces)
-                        ],
-                      ),
+                  child: Container(
+                    margin: EdgeInsets.all(10.dg),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 30,
+                            ),
+                            Text(
+                              "Best places",
+                              style: TextStyle(fontSize: 18.sp),
+                            ),
+                          ],
+                        ),
+                        CreateCard(items: bestPlaces)
+                      ],
                     ),
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
-                    child: Container(
-                      margin: EdgeInsets.all(10.dg),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 30,
-                              ),
-                              Text(
-                                "Week Events",
-                                style: TextStyle(fontSize: 18.sp),
-                              ),
-                            ],
-                          ),
-                          CreateCard(items: nextEvents)
-                        ],
-                      ),
+                  child: Container(
+                    margin: EdgeInsets.all(10.dg),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 30,
+                            ),
+                            Text(
+                              "Week Events",
+                              style: TextStyle(fontSize: 18.sp),
+                            ),
+                          ],
+                        ),
+                        CreateCard(items: nextEvents)
+                      ],
                     ),
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
-                    child: Container(
-                      margin: EdgeInsets.all(10.dg),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                    size: 30,
-                                  ),
-                                  Text(
-                                    "Nearby Restaurants",
-                                    style: TextStyle(fontSize: 18.sp),
-                                  ),
-                                ],
-                              ),
-                              DropdownButton<String>(
-                                value: cubit.dropdownValue.name,
-                                items: <String>[
-                                  SortRestaurantBy.distance.name,
-                                  SortRestaurantBy.rate.name,
-                                  SortRestaurantBy.name.name,
-                                ].map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  cubit.changeDropdownValue(value);
-                                },
-                              )
-                            ],
-                          ),
-                          CreateRestCard(
-                            sortBy: cubit.dropdownValue,
-                          ),
-                        ],
-                      ),
+                  child: Container(
+                    margin: EdgeInsets.all(10.dg),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                  size: 30,
+                                ),
+                                Text(
+                                  "Nearby Restaurants",
+                                  style: TextStyle(fontSize: 18.sp),
+                                ),
+                              ],
+                            ),
+                            DropdownButton<String>(
+                              value: cubit.dropdownValue.name,
+                              items: <String>[
+                                SortRestaurantBy.distance.name,
+                                SortRestaurantBy.rate.name,
+                                SortRestaurantBy.name.name,
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                cubit.changeDropdownValue(value);
+                              },
+                            )
+                          ],
+                        ),
+                        CreateRestCard(
+                          sortBy: cubit.dropdownValue,
+                        ),
+                      ],
                     ),
                   ),
                 ),

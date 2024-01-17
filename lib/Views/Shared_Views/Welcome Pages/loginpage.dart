@@ -107,7 +107,9 @@ class LoginPage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 20.dg),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
+                          color: UserDataCubit.getInstans().isDark
+                              ? Colors.black
+                              : Colors.white,
                         ),
                         width: double.infinity,
                         height: ScreenHeight(context) * 2 / 3,
@@ -119,7 +121,7 @@ class LoginPage extends StatelessWidget {
                               DefaultFormField(
                                 inputType: TextInputType.emailAddress,
                                 // textInputAction: TextInputAction.next,
-                                labelColor: Colors.grey,
+                                // labelColor: Colors.grey,
                                 label: "Email",
                                 controller: emailController,
                                 validate: (val) {
@@ -143,7 +145,7 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 isObscureText: !cubit.isPassShown,
                                 label: "Password",
-                                labelColor: Colors.grey,
+                                // labelColor: Colors.grey,
                                 controller: passwordController,
                                 validate: (val) {
                                   if (val == null) {

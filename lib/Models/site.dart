@@ -55,7 +55,7 @@ class Site extends Attraction {
     for (var review in _reviews) {
       sum += review.getReviewRate();
     }
-    return sum / _reviews.length;
+    return double.parse((sum / _reviews.length).toStringAsFixed(1));
   }
 
   bool isOpen() {

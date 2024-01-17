@@ -446,9 +446,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
           _pickImageFromGallery();
         },
         child: Image.asset(
-          "assets/images/addImage.png",
+          UserDataCubit.getInstans().isDark
+              ? "assets/images/addImagewhite.png"
+              : "assets/images/addImage.png",
           fit: BoxFit.fill,
-          // height: 100,
         ),
       ),
     );

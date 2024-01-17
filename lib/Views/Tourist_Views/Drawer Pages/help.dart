@@ -6,7 +6,6 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:motion_toast/motion_toast.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path/path.dart';
 
@@ -55,45 +54,39 @@ class Help extends StatelessWidget {
   }
 
   Future<void> _downloadHelp(context) async {
-    if (await Permission.storage.status.isGranted) {
-      if (!FlutterDownloader.initialized) {
-        WidgetsFlutterBinding.ensureInitialized();
-        await FlutterDownloader.initialize(debug: true);
+    if (!FlutterDownloader.initialized) {
+      WidgetsFlutterBinding.ensureInitialized();
+      await FlutterDownloader.initialize(debug: true);
+    }
+
+    String? downloadDir = await _chooseSaveLocation();
+
+    if (downloadDir != null) {
+      final filePath = join(downloadDir, 'help.docx');
+
+      ByteData data = await rootBundle.load('assets/help.docx');
+      List<int> bytes = data.buffer.asUint8List();
+
+      File file = File(filePath);
+      await file.writeAsBytes(bytes);
+
+      try {
+        await FlutterDownloader.enqueue(
+          url: 'file://$filePath',
+          savedDir: downloadDir,
+          showNotification: true,
+          openFileFromNotification: true,
+        ).then((value) {
+          MotionToast.success(
+            description: Text("Seccess Download App Manual."),
+            position: MotionToastPosition.center,
+          ).show(context);
+        }).catchError((error) {
+          logger.e(error);
+        });
+      } catch (e) {
+        logger.e("Error : $e");
       }
-
-      String? downloadDir = await _chooseSaveLocation();
-
-      if (downloadDir != null) {
-        final filePath = join(downloadDir, 'help.docx');
-
-        ByteData data = await rootBundle.load('assets/help.docx');
-        List<int> bytes = data.buffer.asUint8List();
-
-        File file = File(filePath);
-        await file.writeAsBytes(bytes);
-
-        try {
-          await FlutterDownloader.enqueue(
-            url: 'file://$filePath',
-            savedDir: downloadDir,
-            showNotification: true,
-            openFileFromNotification: true,
-          ).then((value) {
-            MotionToast.success(
-              description: Text("Seccess Download App Manual."),
-              position: MotionToastPosition.center,
-            ).show(context);
-          }).catchError((error) {
-            logger.e(error);
-          });
-        } catch (e) {
-          logger.e("Error : $e");
-        }
-      }
-    } else {
-      await Permission.storage.request();
-      print(await Permission.storage.status.isGranted);
-      // _downloadHelp(context);
     }
   }
 

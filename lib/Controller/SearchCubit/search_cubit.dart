@@ -45,11 +45,11 @@ class SearchCubit extends Cubit<SearchStates> {
   }
 
   void searchSites(String name) {
-    _attractions.clear();
-    restaurant.clear();
     emit(SearchLoadingStates());
     DioHelper.updateData(url: SearchTouristSiteByName + name, data: {})
         .then((value) async {
+      _attractions.clear();
+      restaurant.clear();
       for (var element in value.data) {
         if (element['status'] == "Accepted") {
           _attractions.add(Site.fromJSON(element));

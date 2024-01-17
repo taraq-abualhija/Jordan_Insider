@@ -173,8 +173,13 @@ class CoorHomePage extends StatelessWidget {
                         return Container(
                           padding: EdgeInsets.all(5.dg),
                           margin: EdgeInsets.only(bottom: 10.dg),
-                          decoration:
-                              BoxDecoration(border: Border.all(width: 1)),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            width: 1,
+                            color: UserDataCubit.getInstans().isDark
+                                ? Colors.white
+                                : Colors.black,
+                          )),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -364,8 +369,13 @@ class CoorHomePage extends StatelessWidget {
                         return Container(
                           padding: EdgeInsets.all(5.dg),
                           margin: EdgeInsets.only(bottom: 10.dg),
-                          decoration:
-                              BoxDecoration(border: Border.all(width: 1)),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            width: 1,
+                            color: UserDataCubit.getInstans().isDark
+                                ? Colors.white
+                                : Colors.black,
+                          )),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

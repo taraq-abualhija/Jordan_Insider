@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jordan_insider/Controller/UserDataCubit/user_data_state.dart';
 import 'package:jordan_insider/Controller/controller.dart';
@@ -9,6 +10,7 @@ import 'package:jordan_insider/Models/tourist_user.dart';
 import 'package:jordan_insider/Models/user.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
 import 'package:jordan_insider/Shared/network/end_points.dart';
+import 'package:jordan_insider/Shared/network/local/cache_helper.dart';
 import 'package:jordan_insider/Shared/network/remote/dio_helper.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -208,5 +210,19 @@ class UserDataCubit extends Cubit<UserDataStates> {
     }).catchError((error) {
       emit(UserGetDataErrorState(error.toString()));
     });
+  }
+
+  IconData themeIcon = Icons.dark_mode;
+  bool isDark = false;
+  void changeTheme() {
+    emit(ChangeThemeLoadingState());
+    if (isDark) {
+      themeIcon = Icons.dark_mode;
+    } else {
+      themeIcon = Icons.light_mode;
+    }
+    isDark = !isDark;
+    CacheHelper.saveData(key: 'theme', value: isDark);
+    emit(ChangeThemeSuccessState());
   }
 }
