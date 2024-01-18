@@ -38,6 +38,7 @@ class ImageProccessingCubit extends Cubit<ImageProcessingStates> {
 
       searchSiteInDB(value.data['object']); //Todo value.data['object']
     }).catchError((error) {
+      emit(ImageProcessingErrorState());
       logger.e(error);
     });
   }
@@ -60,7 +61,7 @@ class ImageProccessingCubit extends Cubit<ImageProcessingStates> {
       emit(SearchSiteInDBSuccessState());
     }).catchError((error) {
       emit(SearchSiteInDBErrorState());
-      logger.e(error);
+      print(error);
     });
   }
 

@@ -28,7 +28,7 @@ class DetailsScreen extends StatelessWidget {
       child: BlocConsumer<ImageProccessingCubit, ImageProcessingStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            VideoPlayerController? _videoController;
+            // VideoPlayerController? _videoController;
 
             return Scaffold(
               appBar: myAppBar(),
@@ -36,7 +36,7 @@ class DetailsScreen extends StatelessWidget {
                 condition: state is! SearchSiteInDBLoadingState &&
                     state is! ImageProcessingLoadingState,
                 builder: (context) {
-                  _videoController?.dispose();
+                  // _videoController?.dispose();
                   return Stack(
                     children: [
                       Container(
@@ -87,10 +87,25 @@ class DetailsScreen extends StatelessWidget {
                                     color: Colors.white, fontSize: 20.sp),
                               ),
                               SizedBox(height: ScreenHeight(context) / 40),
-                              siteItem(
-                                context,
-                                site: ImageProccessingCubit.getInstans().site!,
-                                cubit: ShowAttractionCubit.getInstans(),
+                              ConditionalBuilder(
+                                condition:
+                                    ImageProccessingCubit.getInstans().site !=
+                                        null,
+                                builder: (context) {
+                                  return siteItem(
+                                    context,
+                                    site: ImageProccessingCubit.getInstans()
+                                        .site!,
+                                    cubit: ShowAttractionCubit.getInstans(),
+                                  );
+                                },
+                                fallback: (context) {
+                                  return Container(
+                                    color: Colors.amber,
+                                    child: Text("Not Found",
+                                        style: TextStyle(fontSize: 20.sp)),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -109,14 +124,16 @@ class DetailsScreen extends StatelessWidget {
                     );
                   },
                   fallback: (context) {
-                    _videoController = VideoPlayerController.asset(
-                      'assets/videos/searchvideo.mp4',
-                    )..initialize().then((_) {
-                        _videoController!.play();
-                        _videoController!.setLooping(true);
-                      });
+                    // _videoController = VideoPlayerController.asset(
+                    //   'assets/videos/searchvideo.mp4',
+                    // )..initialize().then((_) {
+                    //     _videoController!.play();
+                    //     _videoController!.setLooping(true);
+                    //   });
                     return Center(
-                      child: videoWidget(_videoController!, context),
+                      child: CircularProgressIndicator(
+                        color: Colors.green,
+                      ),
                     );
                   },
                 ),
