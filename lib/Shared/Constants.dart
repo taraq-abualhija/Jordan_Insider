@@ -117,18 +117,18 @@ Widget DefaultFormField({
       ),
     );
 
-Widget DefaultButton({
-  required String text,
-  Function()? onPressed,
-  Color textcolor = Colors.white,
-  double width = double.infinity,
-  double? height,
-  TextStyle? style,
-  Color? color,
-  ShapeBorder? shape,
-  Color? gradientColor1,
-  Color? gradientColor2,
-}) {
+Widget DefaultButton(
+    {required String text,
+    Function()? onPressed,
+    Color textcolor = Colors.white,
+    double width = double.infinity,
+    double? height,
+    TextStyle? style,
+    Color? color,
+    ShapeBorder? shape,
+    Color? gradientColor1,
+    Color? gradientColor2,
+    Icon? icon}) {
   gradientColor1 ??= Color.fromARGB(255, 40, 110, 200);
   gradientColor2 ??= Color.fromARGB(255, 40, 65, 150);
   height ??= 50.h;
@@ -157,9 +157,27 @@ Widget DefaultButton({
       height: height,
       // color: color,
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: style ?? TextStyle(color: textcolor, fontSize: 20.sp),
+      child: ConditionalBuilder(
+        condition: icon == null,
+        builder: (context) {
+          return Text(
+            text,
+            style: style ?? TextStyle(color: textcolor, fontSize: 20.sp),
+          );
+        },
+        fallback: (context) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                text,
+                style: style ?? TextStyle(color: textcolor, fontSize: 20.sp),
+              ),
+              SizedBox(width: ScreenWidth(context) / 25),
+              icon!,
+            ],
+          );
+        },
       ),
     ),
   );

@@ -1,18 +1,21 @@
-abstract class ImageProccessingStates {}
+abstract class ImageProcessingStates {}
 
-class ImageProccessingInitialState extends ImageProccessingStates {}
+class ImageProcessingInitialState extends ImageProcessingStates {}
 
-class ImageProccessingLoadingState extends ImageProccessingStates {}
+class ImageProcessingLoadingState extends ImageProcessingStates {}
 
-class ImageProccessingSuccessState extends ImageProccessingStates {}
+class ImageProcessingSuccessState extends ImageProcessingStates {}
 
-class SearchForRestLoadingState extends ImageProccessingStates {}
+class ImageProcessingErrorState extends ImageProcessingStates {}
 
-class SearchForRestsuccessState extends ImageProccessingStates {}
+class SearchForRestLoadingState extends ImageProcessingStates {}
 
-class SearchForRestErrorState extends ImageProccessingStates {}
+class SearchForRestsuccessState extends ImageProcessingStates {}
 
-class ImageProccessingErrorState extends ImageProccessingStates {
-  String error;
-  ImageProccessingErrorState(this.error);
-}
+class SearchForRestErrorState extends ImageProcessingStates {}
+
+class SearchSiteInDBLoadingState extends ImageProcessingStates {}
+
+class SearchSiteInDBSuccessState extends ImageProcessingStates {}
+
+class SearchSiteInDBErrorState extends ImageProcessingStates {}

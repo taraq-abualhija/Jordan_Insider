@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_cubit.dart';
 import 'package:jordan_insider/Controller/ImageProcessingCubit/image_processing_state.dart';
 import 'package:jordan_insider/Shared/Constants.dart';
@@ -47,7 +48,7 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: ImageProccessingCubit.getInstans(),
-      child: BlocConsumer<ImageProccessingCubit, ImageProccessingStates>(
+      child: BlocConsumer<ImageProccessingCubit, ImageProcessingStates>(
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = ImageProccessingCubit.getInstans();
@@ -66,6 +67,18 @@ class _CameraScreenState extends State<CameraScreen> {
                           fallback: (context) => Image.file(
                               File(cubit.getImage()!.path),
                               fit: BoxFit.cover),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10.dg),
+                          child: DefaultButton(
+                            text: "Insert Image",
+                            icon: Icon(
+                              Icons.add_photo_alternate_outlined,
+                              color: Colors.white,
+                              size: 40.sp,
+                            ),
+                            onPressed: _pickImageFromGallery,
+                          ),
                         ),
                         /*Cam Button*/ Container(
                           height: 50.h,
@@ -137,6 +150,18 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
+  Future _pickImageFromGallery() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      ImageProccessingCubit.getInstans().setImageToProccess(image);
+      ImageProccessingCubit.getInstans().searchForImage();
+
+      Navigator.pushNamed(context, DetailsScreen.route);
+    } catch (e) {
+      logger.e("Error in _pickImageFromGallery $e");
+    }
+  }
+
   Future takePicture() async {
     if (!_controller.value.isInitialized) {
       return null;
@@ -149,6 +174,7 @@ class _CameraScreenState extends State<CameraScreen> {
       XFile image = await _controller.takePicture();
 
       ImageProccessingCubit.getInstans().setImageToProccess(image);
+      ImageProccessingCubit.getInstans().searchForImage();
 
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, DetailsScreen.route);
